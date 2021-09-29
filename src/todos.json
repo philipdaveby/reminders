@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "task": "Buy milk",
+        "isComplete": false,
+        "owner": "philip.daveby@gmail.com",
+        "locked": false,
+        "subtasks": []
+    },
+    {
+        "id": 2,
+        "task": "Walk the dog",
+        "isComplete": false,
+        "owner": "philip.daveby@gmail.com",
+        "locked": false,
+        "subtasks": []
+    }
+]
