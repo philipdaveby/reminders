@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 
 interface TodoProps {
-    todo: {
-        task: string,
-        isComplete: boolean
-    }
+    todo: Todo
 }
 
 const Todo = ({ todo }: TodoProps) => {
@@ -12,9 +9,8 @@ const Todo = ({ todo }: TodoProps) => {
     const [completed, setCompleted] = useState(false);
 
     return (
-        <div onClick={() => completed ? setCompleted(false) : setCompleted(true)} className={completed ? 'line-through' : ''}>
-            <p>{todo.task}</p>
-            <p>{todo.isComplete}</p>
+        <div className="border rounded m-2">
+            <p onClick={() => completed ? setCompleted(false) : setCompleted(true)} className={completed ? 'text-lightgray line-through' : ''}>{todo.task}</p>
         </div>
     )
 }

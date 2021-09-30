@@ -7,7 +7,7 @@ Profile
 
 const NavBar = () => {
     return (
-        <nav className="flex justify-around">
+        <nav className="flex justify-around border-b">
             <div>
                 Home
             </div>

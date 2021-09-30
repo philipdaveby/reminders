@@ -10,6 +10,9 @@ module.exports = {
           lato: ['Lato', 'Sans']
         }
       },
+      textColor: {
+        'lightgray': '#918d8a'
+      },
       colors: {
       transparent: 'transparent',
       current: 'currentColor'
