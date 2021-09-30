@@ -9,7 +9,7 @@ const Home = () => {
     useEffect(() => {
         getTodos()
             .then((todos: any) => setTodos(todos))
-    }, [])
+    })
 
     const getTodos = async () => {
         const response = await fetch('http://localhost:8000/');

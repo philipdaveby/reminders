@@ -1,5 +1,5 @@
 import React from 'react';
-import todos from '../../todos.json';
+// import todos from '../../todos.json';
 
 interface AddTodoProps {
     todos: any,
@@ -8,21 +8,35 @@ interface AddTodoProps {
 
 const AddTodo = ({ todos, setTodos }: AddTodoProps) => {
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const newTodo = {
-                "id": Math.floor(Math.random()*10000),
-                "task": e.currentTarget.task.value,
-                "isComplete": false,
-                "owner": "philip.daveby@gmail.com",
-                "locked": false,
-                "subtasks": []
-        };
+        await fetch('http://localhost:8000/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                task: e.currentTarget.task.value
+            })
+        })
+        // .then(() => e.currentTarget.task.value = '')
+        .catch(err => console.log(err));
+
+        // e.currentTarget.task.value = '';
+
+        // const newTodo = {
+        //         "id": Math.floor(Math.random()*10000),
+        //         "task": e.currentTarget.task.value,
+        //         "isComplete": false,
+        //         "owner": "philip.daveby@gmail.com",
+        //         "locked": false,
+        //         "subtasks": []
+        // };
         
-        e.currentTarget.task.value = '';
         
-        setTodos([...todos, newTodo]);
+        
+        // setTodos([...todos, newTodo]);
     }
 
     return (
