@@ -11,7 +11,7 @@ const AddTodo = ({ todos, setTodos }: AddTodoProps) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        await fetch('http://localhost:8000/', {
+        await fetch('http://localhost:8000/api/todo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

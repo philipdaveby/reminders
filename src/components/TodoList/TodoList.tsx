@@ -11,7 +11,7 @@ const TodoList = ({ todos }: TodoListProps) => {
         <div className="border rounded m-5 p-1">
             Todo List
             {todos ? todos.map((todo: Todo) => {
-            return <Todo todo={todo} key={todo.id}/>
+            return <Todo todo={todo} key={todo.todoId}/>
             }) : ''}
         </div>
     )
