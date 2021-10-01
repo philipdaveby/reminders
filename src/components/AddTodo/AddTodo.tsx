@@ -24,19 +24,6 @@ const AddTodo = ({ todos, setTodos }: AddTodoProps) => {
         .catch(err => console.log(err));
 
         // e.currentTarget.task.value = '';
-
-        // const newTodo = {
-        //         "id": Math.floor(Math.random()*10000),
-        //         "task": e.currentTarget.task.value,
-        //         "isComplete": false,
-        //         "owner": "philip.daveby@gmail.com",
-        //         "locked": false,
-        //         "subtasks": []
-        // };
-        
-        
-        
-        // setTodos([...todos, newTodo]);
     }
 
     return (
