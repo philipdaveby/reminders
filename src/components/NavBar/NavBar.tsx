@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 /* 
 Logga
 Profile
@@ -8,12 +8,8 @@ Profile
 const NavBar = () => {
     return (
         <nav className="flex justify-around border-b">
-            <div>
-                Home
-            </div>
-            <div>
-                Profile
-            </div>
+            <Link to="/">Home</Link>
+            <Link to="/profile">Profile</Link>
         </nav>
     )
 }
