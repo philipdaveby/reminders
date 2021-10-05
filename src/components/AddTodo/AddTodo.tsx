@@ -3,10 +3,11 @@ import React from 'react';
 
 interface AddTodoProps {
     todos: any,
-    setTodos: any
+    setTodos: any,
+    setNewTodos: any
 }
 
-const AddTodo = ({ todos, setTodos }: AddTodoProps) => {
+const AddTodo = ({ todos, setTodos, setNewTodos }: AddTodoProps) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,7 +23,7 @@ const AddTodo = ({ todos, setTodos }: AddTodoProps) => {
         })
         // .then(() => e.currentTarget.task.value = '')
         .catch(err => console.log(err));
-
+        setNewTodos(true)
         // e.currentTarget.task.value = '';
     }
 
