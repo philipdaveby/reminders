@@ -4,7 +4,7 @@ import { signOut } from '../../utils';
 import AddTodo from '../AddTodo/AddTodo'
 import TodoList from '../TodoList/TodoList'
 import { useHistory } from 'react-router-dom'
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 const Home = () => {
 
@@ -15,6 +15,7 @@ const Home = () => {
 
     useEffect(() => {
         let isMounted = true; 
+
         getTodos()
             .then((todos: any) => {
                 if (isMounted) {

@@ -5,6 +5,7 @@ import SignUp from './components/SignUp/SignUp';
 import { Switch, Route } from 'react-router-dom'
 import Login from './components/Login/Login';
 import { AuthProvider } from './provider/AuthProvider';
+import Profile from './components/Profile/Profile';
 
 const App = () => {
 
@@ -16,6 +17,7 @@ const App = () => {
           <Route exact path="/" component={Home}/>
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
+          <Route path="/profile" component={Profile} />
         </Switch>
       </AuthProvider>
     </div>

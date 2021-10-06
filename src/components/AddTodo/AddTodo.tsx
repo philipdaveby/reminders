@@ -1,5 +1,5 @@
 import React from 'react';
-// import todos from '../../todos.json';
+import firebase from 'firebase/app'
 
 interface AddTodoProps {
     todos: any,
@@ -11,18 +11,24 @@ const AddTodo = ({ todos, setTodos, setNewTodos }: AddTodoProps) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const task = e.currentTarget.task.value;
 
-        await fetch('http://localhost:8000/api/todo', {
+        await firebase.auth().currentUser?.getIdToken(true)
+            .then(async idToken => {
+        await fetch(`http://localhost:8000/api/todo`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': idToken
             },
-            body: JSON.stringify({
-                task: e.currentTarget.task.value
-            })
-        })
-        // .then(() => e.currentTarget.task.value = '')
-        .catch(err => console.log(err));
+                    body: JSON.stringify({
+                        task
+                    })
+                })
+                // .then(() => e.currentTarget.task.value = '')
+                .catch(err => console.log('1' + err));
+        }).catch(error => console.log('2' + error.message));
+
         setNewTodos(true)
         // e.currentTarget.task.value = '';
     }

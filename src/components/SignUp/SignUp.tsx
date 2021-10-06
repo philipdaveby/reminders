@@ -1,17 +1,13 @@
-import React, { useContext, useRef } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import React, { useRef } from "react";
 import { auth } from "../../firebase";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import { notify } from '../../utils/index'
 
 const SignUp = () => {
 
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
-    // const user = useContext(AuthContext);
-
-    const notify = (text: string) => toast(text);
 
     const isValidEmail = (email: string) => {
         const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
