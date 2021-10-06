@@ -6,8 +6,18 @@ import { Switch, Route } from 'react-router-dom'
 import Login from './components/Login/Login';
 import { AuthProvider } from './provider/AuthProvider';
 import Profile from './components/Profile/Profile';
+import { io } from 'socket.io-client'
+import config from './utils/config';
 
 const App = () => {
+
+
+  const socket = io(config.backend_url);
+  socket.on('connect', () => {
+    console.log(`You connected with id: ${socket.id}`)
+  });
+
+  socket.emit('custom-event', 19, 'hi', {a: 'ab'});
 
   return (
     <div className="flex w-full flex-col">
