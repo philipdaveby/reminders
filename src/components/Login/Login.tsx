@@ -1,5 +1,5 @@
-import React, { useContext, useRef } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import React, { useRef } from "react";
+// import { AuthContext } from "../../contexts/AuthContext";
 import { auth } from "../../firebase";
 import { useHistory } from 'react-router-dom'
 
@@ -8,7 +8,7 @@ const Login = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const history = useHistory();
-    const user = useContext(AuthContext);
+    // const user = useContext(AuthContext);
 
     const signIn = async (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();

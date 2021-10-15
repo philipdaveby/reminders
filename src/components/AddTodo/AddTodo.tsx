@@ -1,5 +1,5 @@
-import React from 'react';
-import firebase from 'firebase/app'
+import React, { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 import { Socket } from 'socket.io-client'
 
 interface AddTodoProps {
@@ -11,28 +11,28 @@ interface AddTodoProps {
 
 const AddTodo = ({ todos, setTodos, setNewTodos, socket }: AddTodoProps) => {
 
+    const user = useContext(AuthContext);
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const task = e.currentTarget.task.value;
 
-        socket.emit('add-todo')
-
-        await firebase.auth().currentUser?.getIdToken(true)
-            .then(async idToken => {
-        await fetch(`http://localhost:8000/api/todo`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': idToken
-            },
-                    body: JSON.stringify({
-                        task
-                    })
-                })
-                // .then(() => e.currentTarget.task.value = '')
-                .catch(err => console.log('1' + err));
+        
+        await user?.getIdToken(true)
+        .then(async idToken => {
+            await fetch(`http://localhost:8000/api/todo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': idToken
+                },
+                body: JSON.stringify({task})
+            })
+            // .then(() => e.currentTarget.task.value = '')
+            .catch(err => console.log('1' + err));
         }).catch(error => console.log('2' + error.message));
-
+        
+        socket.emit('add-todo')
         setNewTodos(true)
         // e.currentTarget.task.value = '';
     }

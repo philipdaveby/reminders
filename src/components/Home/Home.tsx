@@ -6,14 +6,21 @@ import TodoList from '../TodoList/TodoList'
 import { useHistory } from 'react-router-dom'
 import { io, Socket } from 'socket.io-client'
 import config from '../../utils/config';
-import firebase from 'firebase/app';
 
 const Home = () => {
 
     const [socket, setSocket] = useState<Socket>(io);
 
     useEffect(() => {
-        const newSocket = io(config.backend_url);
+        // const newSocket = io(config.backend_url);
+        const newSocket = io(`${config.backend_url}`, {
+            reconnectionDelay: 1000,
+            reconnection: true,
+            transports: ['websocket'],
+            agent: false,
+            upgrade: false,
+            rejectUnauthorized: false,
+          });
         setSocket(newSocket);
       return () => {
         socket.disconnect();
@@ -24,34 +31,45 @@ const Home = () => {
     const user = useContext(AuthContext);
     const [newTodos, setNewTodos] = useState(false);
     const history = useHistory();
-
+    
     useEffect(() => {
-        let isMounted = true; 
-
         getTodos()
-            .then((todoList: any) => {
-                // console.log('Todolist: ' + todoList)
-                if (!isMounted) {
-                    console.log('not mounted')
-                    return;
-                }
-                // console.log('Inside useEffect')
-                setTodos(todoList)
-            });
-        socket.on('server-added-todo', () => {
-            getTodos()
-            .then((todos: any) => {
-                console.log('4 after socket')
-                setTodos(todos)
-            }).catch((error) => {
-                console.log('Could not set todos: ' + error)
-            });
+        socket.on('server-added-todo', async () => {
+            console.log('server-added-todo')
+            await getTodos()
         });
-        return () => { isMounted = false }; 
-    }, []);
+    }, [])
+    // useEffect(() => {
+    //     socket.on('server-added-todo', async () => {
+    //         console.log('server-added-todo')
+    //         await getTodos()
+    //         .then((todos: any) => {
+    //             console.log('Just fetched data through socket')
+    //             setTodos(todos)
+    //         }).catch((error) => {
+    //             console.log('Could not set todos: ' + error)
+    //         });
+    //     });
+    // }, [])
+
+    // useEffect(() => {
+    //     // let isMounted = true; 
+
+    //     getTodos()
+    //     //     .then((todoList: any) => {
+    //     //         // console.log('Todolist: ' + todoList)
+    //     //         if (!isMounted) {
+    //     //             console.log('not mounted')
+    //     //             return;
+    //     //         }
+    //     //         // console.log('Inside useEffect')
+    //     //         setTodos(todoList)
+    //     //     });
+    //     // return () => { isMounted = false }; 
+    // }, []);
 
     const getTodos = async () => {
-        return user?.getIdToken(true)
+        const fetchedTodos = await user?.getIdToken(true)
                 .then(async idToken => {
                     // console.log('Fetching')
                     const response = await fetch('http://localhost:8000/api/todos', {
@@ -67,6 +85,7 @@ const Home = () => {
                 .catch((error) => {
                 console.log('We had an error loading data');
         });
+        setTodos(fetchedTodos)
     }
 
     const logOut = () => {
