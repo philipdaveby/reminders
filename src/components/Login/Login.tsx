@@ -30,13 +30,13 @@ const Login = () => {
   return (
     <div>
         <h2>Sign in</h2>
-        {user ? history.push('/') :
+        {/* {user ? history.push('/') : */}
         <form>
             <input type="email" placeholder="email" ref={emailRef} />
             <input type="password" placeholder="password" ref={passwordRef}/>
             <button type="submit" onClick={e => signIn(e)}>Sign In</button>
         </form>
-        }
+        {/* // } */}
         <button onClick={signOut}>Sign out</button>
     </div>
   );

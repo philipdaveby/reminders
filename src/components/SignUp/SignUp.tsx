@@ -16,23 +16,25 @@ const SignUp = () => {
 
     const createAccount = async () => {
 
-        if (passwordRef.current?.value) {
-            isValidEmail(emailRef.current!.value);
-            notify('Your email does not have a correct format, please try again.');
-            return;
-        }
-
-        if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
-            notify('Your passwords does not match, please try again.');
-            passwordRef.current!.value = ''
-            confirmPasswordRef.current!.value = ''
-            return;
-        }
-        try {
-          await auth.createUserWithEmailAndPassword(
-            emailRef.current!.value,
-            passwordRef.current!.value
-          );
+        // if (passwordRef.current?.value) {
+            if (!isValidEmail(emailRef.current!.value)) {
+              notify('Your email does not have a correct format, please try again.');
+              return;
+            }
+            // }
+            
+            if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
+              notify('Your passwords does not match, please try again.');
+              passwordRef.current!.value = ''
+              confirmPasswordRef.current!.value = ''
+              return;
+            }
+            try {
+              await auth.createUserWithEmailAndPassword(
+                emailRef.current!.value,
+                passwordRef.current!.value
+                );
+                notify('You have completed your signup!');
         } catch (error) {
           console.error(error);
         }

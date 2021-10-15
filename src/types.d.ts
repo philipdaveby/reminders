@@ -1,3 +1,4 @@
+
 type Todo = {
     task: string,
     isComplete: boolean,
@@ -15,4 +16,8 @@ type SubTask = {
     _id: string,
     owner: string,
     locked: boolean
+}
+
+type socketProps = {
+    socket: Socket
 }

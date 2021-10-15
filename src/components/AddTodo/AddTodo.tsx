@@ -1,17 +1,21 @@
 import React from 'react';
 import firebase from 'firebase/app'
+import { Socket } from 'socket.io-client'
 
 interface AddTodoProps {
     todos: any,
     setTodos: any,
-    setNewTodos: any
+    setNewTodos: any,
+    socket: Socket
 }
 
-const AddTodo = ({ todos, setTodos, setNewTodos }: AddTodoProps) => {
+const AddTodo = ({ todos, setTodos, setNewTodos, socket }: AddTodoProps) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const task = e.currentTarget.task.value;
+
+        socket.emit('add-todo')
 
         await firebase.auth().currentUser?.getIdToken(true)
             .then(async idToken => {
