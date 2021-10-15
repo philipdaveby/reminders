@@ -16,7 +16,7 @@ const Home = () => {
         const newSocket = io(`${config.backend_url}`, {
             reconnectionDelay: 1000,
             reconnection: true,
-            transports: ['websocket'],
+            transports: ['websocket', 'flashsocket', 'htmlpage', 'xhr-polling', 'jsonp-polling'],
             agent: false,
             upgrade: false,
             rejectUnauthorized: false,
@@ -34,9 +34,9 @@ const Home = () => {
     
     useEffect(() => {
         getTodos()
-        socket.on('server-added-todo', async () => {
+        socket.on('server-added-todo', () => {
             console.log('server-added-todo')
-            await getTodos()
+            getTodos()
         });
     }, [])
     // useEffect(() => {
