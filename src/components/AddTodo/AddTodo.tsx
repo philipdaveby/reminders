@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Socket } from 'socket.io-client'
+import config from '../../utils/config';
 
 interface AddTodoProps {
     todos: any,
@@ -19,7 +20,7 @@ const AddTodo = ({ todos, setTodos, socket }: AddTodoProps) => {
         
         await user?.getIdToken(true)
         .then(async idToken => {
-            await fetch(`http://localhost:8000/api/todo`, {
+            await fetch(`${config.backend_url}/api/todos`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,6 +30,7 @@ const AddTodo = ({ todos, setTodos, socket }: AddTodoProps) => {
             })
             // .then(() => e.currentTarget.task.value = '')
             .catch(err => console.log('1' + err));
+            
         }).catch(error => console.log('2' + error.message));
         
         socket.emit('add-todo')

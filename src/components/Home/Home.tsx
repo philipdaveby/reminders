@@ -16,11 +16,14 @@ const Home = () => {
     const history = useHistory();
 
     useEffect(() => {
+        console.log('UseEffect')
         getTodos();
-        const newSocket = io(config.backend_url);
+        const newSocket = io(config.backend_url, {
+            transports: ['websocket', 'flashsocket', 'htmlpage', 'xhr-polling', 'jsonp-polling']
+        });
         setSocket(newSocket);
-        socket.on('server-added-todo', () => {
-            console.log('server-added-todo')
+        socket.on('update-todos', () => {
+            console.log('update-todos')
             getTodos()
         });
       return () => {
@@ -31,12 +34,13 @@ const Home = () => {
 
     
     const getTodos = async () => {
+        console.log('inside auth')
         firebase.auth().onAuthStateChanged(user => {
             if (user) { 
                 user.getIdToken(true)
                     .then(async idToken => {
                         const response = await fetch('http://localhost:8000/api/todos', {
-                            method: 'POST',
+                            method: 'GET',
                             headers: {
                                 'Authorization': idToken
                             }

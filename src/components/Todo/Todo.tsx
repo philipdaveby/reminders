@@ -43,7 +43,7 @@ const Todo = ({ todo, socket }: TodoProps) => {
         const id = e.currentTarget.id;
         await firebase.auth().currentUser?.getIdToken(true)
             .then(async idToken => {
-        await fetch(`${config.backend_url}/api/todo/${id}`, {
+        await fetch(`${config.backend_url}/api/todos/${id}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': idToken,
@@ -63,7 +63,7 @@ const Todo = ({ todo, socket }: TodoProps) => {
         const id = e.currentTarget.id;
         await firebase.auth().currentUser?.getIdToken(true)
             .then(async idToken => {
-                await fetch(`http://localhost:8000/api/todo/${id}`, {
+                await fetch(`${config.backend_url}/api/todos/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': idToken
@@ -77,11 +77,13 @@ const Todo = ({ todo, socket }: TodoProps) => {
         if (!editedTodo) {
             return;
         }
+        console.log('save')
         setEdit(false);
         const id = e.currentTarget.id;
         await firebase.auth().currentUser?.getIdToken(true)
-            .then(async idToken => {
-                const response = await fetch(`http://localhost:8000/api/todo/${id}`, {
+        .then(async idToken => {
+                console.log('firebase')
+                const response = await fetch(`${config.backend_url}/api/todos/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -90,6 +92,7 @@ const Todo = ({ todo, socket }: TodoProps) => {
                     body: JSON.stringify({task: editedTodo})
                 });
                 const res = await response.json();
+                console.log('3')
                 setEditedTodo(null)
                 return res;
             }).then(() => socket.emit('add-todo'))
