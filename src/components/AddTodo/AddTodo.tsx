@@ -5,11 +5,10 @@ import { Socket } from 'socket.io-client'
 interface AddTodoProps {
     todos: any,
     setTodos: any,
-    setNewTodos: any,
     socket: Socket
 }
 
-const AddTodo = ({ todos, setTodos, setNewTodos, socket }: AddTodoProps) => {
+const AddTodo = ({ todos, setTodos, socket }: AddTodoProps) => {
 
     const user = useContext(AuthContext);
 
@@ -33,7 +32,7 @@ const AddTodo = ({ todos, setTodos, setNewTodos, socket }: AddTodoProps) => {
         }).catch(error => console.log('2' + error.message));
         
         socket.emit('add-todo')
-        setNewTodos(true)
+        // setNewTodos(true)
         // e.currentTarget.task.value = '';
     }
 
