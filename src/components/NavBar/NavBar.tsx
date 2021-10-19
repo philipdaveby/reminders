@@ -7,7 +7,8 @@ Profile
 
 const NavBar = () => {
     return (
-        <nav className="flex justify-around border-b">
+        <nav className="grid grid-cols-3 border-b h-10">
+            <Link to="/">R</Link>
             <Link to="/">Home</Link>
             <Link to="/profile">Profile</Link>
         </nav>

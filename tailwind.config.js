@@ -8,6 +8,9 @@ module.exports = {
         fontFamily: {
           roboto: ['Roboto', 'Sans'],
           lato: ['Lato', 'Sans']
+        },
+        gridTemplateColumns: {
+          'NavBar': '200px minmax(500px, 1fr) minmax(500px, 1fr)',
         }
       },
       textColor: {

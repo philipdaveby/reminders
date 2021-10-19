@@ -30,14 +30,14 @@ const Login = () => {
   return (
     <div>
         <h2>Sign in</h2>
-        {/* {user ? history.push('/') : */}
         <form>
             <input type="email" placeholder="email" ref={emailRef} />
             <input type="password" placeholder="password" ref={passwordRef}/>
             <button type="submit" onClick={e => signIn(e)}>Sign In</button>
         </form>
-        {/* // } */}
-        <button onClick={signOut}>Sign out</button>
+        
+        <button className="h-8 px-4 m-2 text-sm text-indigo-100 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" onClick={() => history.push('/signup')}>Create a new account</button>
+        <button className="h-8 px-4 m-2 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" onClick={signOut}>Sign out</button>
     </div>
   );
 }

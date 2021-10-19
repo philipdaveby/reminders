@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { signOut } from '../../utils';
+import React, { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../../contexts/AuthContext';
 import AddTodo from '../AddTodo/AddTodo'
 import TodoList from '../TodoList/TodoList'
+import Login from '../Login/Login'
 import { useHistory } from 'react-router-dom'
 import { io, Socket } from 'socket.io-client'
 import config from '../../utils/config';
@@ -11,19 +12,22 @@ const Home = () => {
 
     const [socket, setSocket] = useState<Socket>(io);
     let [todos, setTodos] = useState(null);
-    // const user = useContext(AuthContext);
+    const user = useContext(AuthContext);
     // const [newTodos, setNewTodos] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
-        console.log('UseEffect')
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) {
+                history.push('/login');
+            }
+        })
         getTodos();
         const newSocket = io(config.backend_url, {
             transports: ['websocket', 'flashsocket', 'htmlpage', 'xhr-polling', 'jsonp-polling']
         });
         setSocket(newSocket);
         socket.on('update-todos', () => {
-            console.log('update-todos')
             getTodos()
         });
       return () => {
@@ -55,20 +59,14 @@ const Home = () => {
           });
     }
 
-    const logOut = () => {
-        history.push('/login');
-        signOut();
-    }
-
     return (
-        <div>
-            {/* {!user ? history.push('/login') : ''} <div> */}
+        <>
+            {user ? <div>
                 <h1 className="text-2xl mt-5">Reminders Todo App</h1>
                 <TodoList todos={todos} socket={socket} />
                 <AddTodo todos={todos} setTodos={setTodos} socket={socket}/>
-                <button onClick={logOut}>Sign Out</button>
-            {/* </div> */}
-        </div>
+            </div>  : <Login />}
+        </>
     )
 }
 
