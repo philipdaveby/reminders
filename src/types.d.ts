@@ -12,7 +12,7 @@ type Todo = {
 type SubTask = {
     task: string,
     isComplete: boolean,
-    todoId: number,
+    subId: number,
     _id: string,
     owner: string,
     locked: boolean

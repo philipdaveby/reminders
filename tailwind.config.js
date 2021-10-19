@@ -10,7 +10,7 @@ module.exports = {
           lato: ['Lato', 'Sans']
         },
         gridTemplateColumns: {
-          'NavBar': '200px minmax(500px, 1fr) minmax(500px, 1fr)',
+          'NavBar': '200px minmax(500px, 1fr) 200px',
         }
       },
       textColor: {
