@@ -5,21 +5,22 @@ import doneIcon from '../../icons/done2.png'
 import saveIcon from '../../icons/save1.png'
 import firebase from 'firebase/app'
 import config from '../../utils/config'
+import { Socket } from 'socket.io-client';
 
 interface SubTaskProps {
-    sub: SubTask
+    sub: SubTask,
+    socket: Socket,
+    todo: Todo
 }
 
-const SubTask = ({ sub }: SubTaskProps) => {
+const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
 
     const [edit, setEdit] = useState<boolean>(false);
     const [completed, setCompleted] = useState<boolean>(sub.isComplete);
 
     const completeSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
-            const id = e.currentTarget.parentElement?.parentElement?.id
-            console.log(id)
+            const id = todo.todoId;
             const subId = e.currentTarget.id;
-            console.log(subId)
             await firebase.auth().currentUser?.getIdToken(true)
                 .then(async idToken => {
             await fetch(`${config.backend_url}/api/todos/${id}/subtasks/${subId}`, {
@@ -36,6 +37,21 @@ const SubTask = ({ sub }: SubTaskProps) => {
         })
         .catch(error => console.log(error.message));
             completed ? setCompleted(false) : setCompleted(true);
+    }
+
+    const deleteSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
+        const id = todo.todoId
+        const subId = e.currentTarget.id;
+        await firebase.auth().currentUser?.getIdToken(true)
+            .then(async idToken => {
+                await fetch(`${config.backend_url}/api/todos/${id}/subtasks/${subId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': idToken
+                    }
+                });
+                socket.emit('add-todo')
+            }).catch(error => console.log(error.message))
     }
 
 
@@ -61,7 +77,7 @@ const SubTask = ({ sub }: SubTaskProps) => {
 
             <div className="flex content-center">
                 <button id={sub.subId.toString()} onClick={() => setEdit(edit => !edit)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit icon" className="w-9"/></button> 
-                <button id={sub.subId.toString()} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete icon" className="w-10"/></button>
+                <button id={sub.subId.toString()} onClick={e => deleteSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete icon" className="w-10"/></button>
             </div>
         </div>
     )

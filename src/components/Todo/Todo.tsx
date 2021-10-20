@@ -143,15 +143,15 @@ const Todo = ({ todo, socket }: TodoProps) => {
     }
 
     return (
-        <div className="border rounded m-2">
+        <div className="border rounded m-2 ">
             {edit ? <input ref={input} onChange={e => setEditedTodo(e.currentTarget.value)} className="m-1 border rounded"/>
             : 
             <div id={todo.todoId.toString()}>
-                <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through' : 'text-lg'} >
+                <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through cursor-pointer' : 'text-lg cursor-pointer'} >
                     {todo.task}
                 </h3>
                 {openSubTask ? todo.subTasks.map((sub: SubTask, index: number) => {
-                    return  <SubTask sub={sub} key={index}/>})
+                    return  <SubTask sub={sub} key={index} socket={socket} todo={todo}/>})
                     : null}
                 </div>}
 
@@ -166,7 +166,7 @@ const Todo = ({ todo, socket }: TodoProps) => {
                 : null}
 
             <div>
-            {openSubTask && !addSubTaskInput ? <button id={todo.todoId.toString()} onClick={() => addSubTask()} className="m-1 pl-1 pr-1 cursor-pointer"><img src={addIcon} alt="add icon" className="w-7"/></button> : null}
+                <button id={todo.todoId.toString()} onClick={() => addSubTask()} className="m-1 pl-1 pr-1 cursor-pointer"><img src={addIcon} alt="add icon" className="w-7"/></button>
                 {edit ? null : <button id={todo.todoId.toString()} onClick={e => completeTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={doneIcon} alt="done icon" className="w-7"/></button>}
                 {edit ? <button id={todo.todoId.toString()} onClick={e => saveTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save icon" className="w-7"/></button> : null}
                 <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit icon" className="w-7"/></button> 

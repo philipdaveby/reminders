@@ -31,6 +31,7 @@ const Home = () => {
             getTodos()
         });
       return () => {
+          console.log('disconected socket')
         socket.disconnect();
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
