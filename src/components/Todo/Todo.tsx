@@ -89,7 +89,7 @@ const Todo = ({ todo, socket }: TodoProps) => {
         await firebase.auth().currentUser?.getIdToken(true)
         .then(async idToken => {
                 const response = await fetch(`${config.backend_url}/api/todos/${id}`, {
-                    method: 'PUT',
+                    method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': idToken

@@ -39,7 +39,6 @@ const Home = () => {
 
     
     const getTodos = async () => {
-        console.log('inside auth')
         firebase.auth().onAuthStateChanged(user => {
             if (user) { 
                 user.getIdToken(true)

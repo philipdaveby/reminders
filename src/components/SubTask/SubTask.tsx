@@ -16,6 +16,7 @@ interface SubTaskProps {
 const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
 
     const [edit, setEdit] = useState<boolean>(false);
+    const [editedSubTask, setEditedSubTask] = useState<string>('');
     const [completed, setCompleted] = useState<boolean>(sub.isComplete);
 
     const completeSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
@@ -54,11 +55,33 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
             }).catch(error => console.log(error.message))
     }
 
+    const saveEditedSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
+        const id = todo.todoId
+        const subId = e.currentTarget.id;
+        await firebase.auth().currentUser?.getIdToken(true)
+            .then(async idToken => {
+                await fetch(`${config.backend_url}/api/todos/${id}/subtasks/${subId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': idToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        subTask: editedSubTask
+                    })
+                }).then(() => {
+                    socket.emit('add-todo');
+                    setEditedSubTask('');
+                    setEdit(false);
+                }).catch(error => console.log(error.message));
+            }).catch(error => console.log(error.message))
+    }
+
 
     return (
         <div key={sub.subId} className="grid grid-cols-4">
             {edit ? 
-            <button id={sub.subId.toString()} className="m-1 pl-1 pr-1 cursor-pointer">
+            <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
                 <img src={saveIcon} alt="save icon" className="w-6"/>
             </button> 
             : 
@@ -69,7 +92,7 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
             
 
             {edit ? 
-            <input className="m-1 border rounded col-start-2 col-end-4"/>
+            <input onChange={e => setEditedSubTask(e.currentTarget.value)} className="m-1 border rounded col-start-2 col-end-4"/>
             :
             <div className="flex col-start-2 col-end-4 justify-center">
                 <p className={completed ? 'text-base self-center text-lightgray line-through' : 'text-base self-center'}>{sub.task}</p>
