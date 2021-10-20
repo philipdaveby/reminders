@@ -79,7 +79,7 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
 
 
     return (
-        <div key={sub.subId} className="grid grid-cols-4">
+        <li key={sub.subId} className={completed ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"}>
             {edit ? 
             <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
                 <img src={saveIcon} alt="save icon" className="w-6"/>
@@ -102,7 +102,7 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
                 <button id={sub.subId.toString()} onClick={() => setEdit(edit => !edit)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit icon" className="w-9"/></button> 
                 <button id={sub.subId.toString()} onClick={e => deleteSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete icon" className="w-10"/></button>
             </div>
-        </div>
+        </li>
     )
 }
 

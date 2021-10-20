@@ -12,13 +12,15 @@ const TodoList = ({ todos, socket }: TodoListProps) => {
     // const [edit, setEdit] = useState<boolean>(false);
 
     return (
-        <div className="border rounded m-5 p-1">
+        <>
             <h2>Todo List</h2>
-            {/* <p onClick={() => edit ? setEdit(false) : setEdit(true)}>Edit</p> */}
-            {todos ? todos.map((todo: Todo) => {
-            return <Todo todo={todo} key={todo.todoId} socket={socket}/>
-            }) : ''}
-        </div>
+            <ul className="flex flex-col border rounded m-5 p-1">
+                {/* <p onClick={() => edit ? setEdit(false) : setEdit(true)}>Edit</p> */}
+                {todos ? todos.map((todo: Todo) => {
+                return <Todo todo={todo} key={todo.todoId} socket={socket}/>
+                }) : ''}
+            </ul>
+        </>
     )
 }
 

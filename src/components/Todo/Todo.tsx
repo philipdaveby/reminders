@@ -143,17 +143,19 @@ const Todo = ({ todo, socket }: TodoProps) => {
     }
 
     return (
-        <div className="border rounded m-2 ">
+        <li className={completed ? "border rounded m-2 order-last" : "border rounded m-2 order-first"}>
             {edit ? <input ref={input} onChange={e => setEditedTodo(e.currentTarget.value)} className="m-1 border rounded"/>
             : 
             <div id={todo.todoId.toString()}>
                 <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through cursor-pointer' : 'text-lg cursor-pointer'} >
                     {todo.task}
                 </h3>
-                {openSubTask ? todo.subTasks.map((sub: SubTask, index: number) => {
-                    return  <SubTask sub={sub} key={index} socket={socket} todo={todo}/>})
-                    : null}
-                </div>}
+                <ul className="flex flex-col">
+                    {openSubTask ? todo.subTasks.map((sub: SubTask, index: number) => {
+                        return  <SubTask sub={sub} key={index} socket={socket} todo={todo} />})
+                        : null}
+                </ul>
+            </div>}
 
                 {addSubTaskInput ? 
                 <div className="flex content-center justify-center">
@@ -172,7 +174,7 @@ const Todo = ({ todo, socket }: TodoProps) => {
                 <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit icon" className="w-7"/></button> 
                 <button id={todo.todoId.toString()} onClick={e => deleteTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete icon" className="w-8"/></button> 
             </div>
-        </div>
+        </li>
     )
 }
 

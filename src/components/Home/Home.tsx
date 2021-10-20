@@ -4,16 +4,17 @@ import AddTodo from '../AddTodo/AddTodo'
 import TodoList from '../TodoList/TodoList'
 import Login from '../Login/Login'
 import { useHistory } from 'react-router-dom'
-import { io, Socket } from 'socket.io-client'
-import config from '../../utils/config';
+import { Socket } from 'socket.io-client'
 import firebase from 'firebase';
 
-const Home = () => {
+interface HomeProps {
+    socket: Socket
+}
 
-    const [socket, setSocket] = useState<Socket>(io);
+const Home = ({ socket }: HomeProps) => {
+
     let [todos, setTodos] = useState(null);
     const user = useContext(AuthContext);
-    // const [newTodos, setNewTodos] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -22,18 +23,12 @@ const Home = () => {
                 history.push('/login');
             }
         })
-        getTodos();
-        const newSocket = io(config.backend_url, {
-            transports: ['websocket', 'flashsocket', 'htmlpage', 'xhr-polling', 'jsonp-polling']
-        });
-        setSocket(newSocket);
+        console.log('useEffect')
         socket.on('update-todos', () => {
+            console.log('update socket')
             getTodos()
         });
-      return () => {
-          console.log('disconected socket')
-        socket.disconnect();
-      }
+        getTodos();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
