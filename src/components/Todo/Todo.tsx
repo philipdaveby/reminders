@@ -20,30 +20,12 @@ const Todo = ({ todo, socket }: TodoProps) => {
 
     const [completed, setCompleted] = useState<boolean>(todo.isComplete);
     const [editedTodo, setEditedTodo] = useState<string | null>(null)
-    const input = React.useRef(null);
     const [openSubTask, setOpenSubTask] = useState<boolean>(false);
     const [addSubTaskInput, setAddSubTaskInput] = useState<boolean>(false);
     const [newSubTask, setNewSubTask] = useState<string>('');
     const [edit, setEdit] = useState(false)
-    // const inputRef = useRef<HTMLElement>();
-    // const [tempSubTasks, setTempSubTasks] = useState<SubTask[]>([
-    //     {
-    //         task: 'Cucumber',
-    //         isComplete: false,
-    //         subId: 91820093,
-    //         _id: 'djk3828jasdk',
-    //         owner: '12345678@gmail.com',
-    //         locked: false
-    //     },
-    //     {
-    //         task: 'Milk',
-    //         isComplete: false,
-    //         subId: 382801096,
-    //         _id: 'djskl38ksja',
-    //         owner: '12345678@gmail.com',
-    //         locked: false
-    //     }
-    // ]);
+    const inputSubTaskRef = React.useRef<HTMLInputElement>(null);
+    const inputEditTodoRef = React.useRef<HTMLInputElement>(null);
 
     const completeTodo = async (e: React.FormEvent<HTMLButtonElement>) => {
         const id = e.currentTarget.id;
@@ -102,10 +84,12 @@ const Todo = ({ todo, socket }: TodoProps) => {
             }).then(() => socket.emit('add-todo'))
             .catch(error => console.log(error.message))
     }
-
     
     const editTodo = async (e: React.FormEvent<HTMLButtonElement>) => {
         setEdit(edit => !edit);
+        setTimeout(() => {
+            inputEditTodoRef.current?.focus();
+        });
     }
 
     const sendNewSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
@@ -126,53 +110,54 @@ const Todo = ({ todo, socket }: TodoProps) => {
                                 .catch(error => console.log(error.message));
                             }).then(() => socket.emit('add-todo'))
                         .catch(error => console.log(error.message));
-        setNewSubTask('')
-        setAddSubTaskInput(false)
+        setNewSubTask('');
+        setAddSubTaskInput(false);
+        setOpenSubTask(true);
     }
 
     const addSubTask = () => {
         setAddSubTaskInput(!addSubTaskInput)
+        setTimeout(() => {
+            inputSubTaskRef.current?.focus();
+        });
     }
 
     const openSubTasks = () => {
         if (openSubTask) {
-            setAddSubTaskInput(false)
+            setAddSubTaskInput(false);
         }
-        setOpenSubTask(!openSubTask)
-
+        setOpenSubTask(!openSubTask);
     }
 
     return (
-        <li className={completed ? "border rounded m-2 order-last" : "border rounded m-2 order-first"}>
-            {edit ? <input ref={input} onChange={e => setEditedTodo(e.currentTarget.value)} className="m-1 border rounded"/>
+        <li className={completed ? "border border-blue-900 rounded-lg m-2 bg-white order-last" : "border border-blue-900 rounded-lg m-2 bg-white order-first"}>
+            {edit ? <input ref={inputEditTodoRef} onChange={e => setEditedTodo(e.currentTarget.value)} className="m-1 border rounded"/>
             : 
             <div id={todo.todoId.toString()}>
                 <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through cursor-pointer' : 'text-lg cursor-pointer'} >
                     {todo.task}
                 </h3>
                 <ul className="flex flex-col">
-                    {openSubTask ? todo.subTasks.map((sub: SubTask, index: number) => {
-                        return  <SubTask sub={sub} key={index} socket={socket} todo={todo} />})
-                        : null}
+                    {openSubTask && todo.subTasks.map((sub: SubTask, index: number) => {
+                        return  <SubTask sub={sub} key={index} socket={socket} todo={todo} />})}
                 </ul>
             </div>}
 
-                {addSubTaskInput ? 
+                {addSubTaskInput &&
                 <div className="flex content-center justify-center">
-                    <input onChange={e => setNewSubTask(e.currentTarget.value)} className="m-1 border rounded"/>
+                    <input onChange={e => setNewSubTask(e.currentTarget.value)} ref={inputSubTaskRef} className="m-1 border rounded"/>
                     <div>
-                        <button id={todo.todoId.toString()} onClick={e => sendNewSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save icon" className="w-7"/></button>
-                        <button id={todo.todoId.toString()} onClick={() => setAddSubTaskInput(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input" className="w-7"/></button>
+                        <button id={todo.todoId.toString()} onClick={e => sendNewSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save sub task" className="w-7"/></button>
+                        <button id={todo.todoId.toString()} onClick={() => setAddSubTaskInput(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
                     </div>
-                </div>
-                : null}
+                </div>}
 
             <div>
-                <button id={todo.todoId.toString()} onClick={() => addSubTask()} className="m-1 pl-1 pr-1 cursor-pointer"><img src={addIcon} alt="add icon" className="w-7"/></button>
-                {edit ? null : <button id={todo.todoId.toString()} onClick={e => completeTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={doneIcon} alt="done icon" className="w-7"/></button>}
-                {edit ? <button id={todo.todoId.toString()} onClick={e => saveTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save icon" className="w-7"/></button> : null}
-                <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit icon" className="w-7"/></button> 
-                <button id={todo.todoId.toString()} onClick={e => deleteTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete icon" className="w-8"/></button> 
+                <button id={todo.todoId.toString()} onClick={() => addSubTask()} className="m-1 pl-1 pr-1 cursor-pointer"><img src={addIcon} alt="add new todo" className="w-7"/></button>
+                {edit && <button id={todo.todoId.toString()} onClick={e => completeTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={doneIcon} alt="mark todo as done" className="w-7"/></button>}
+                {!edit && <button id={todo.todoId.toString()} onClick={e => saveTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save todo" className="w-7"/></button>}
+                <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit todo" className="w-7"/></button> 
+                <button id={todo.todoId.toString()} onClick={e => deleteTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete todo" className="w-8"/></button> 
             </div>
         </li>
     )

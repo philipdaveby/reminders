@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import deleteIcon from '../../icons/delete1.png'
 import editIcon from '../../icons/edit1.png'
 import doneIcon from '../../icons/done2.png'
@@ -18,6 +18,7 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
     const [edit, setEdit] = useState<boolean>(false);
     const [editedSubTask, setEditedSubTask] = useState<string>('');
     const [completed, setCompleted] = useState<boolean>(sub.isComplete);
+    const inputEditSubTaskRef = useRef<HTMLInputElement>(null);
 
     const completeSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
             const id = todo.todoId;
@@ -55,6 +56,13 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
             }).catch(error => console.log(error.message))
     }
 
+    const editSubTask = () => {
+        setEdit(edit => !edit)
+        setTimeout(() => {
+            inputEditSubTaskRef.current?.focus();
+        });
+    }
+
     const saveEditedSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
         const id = todo.todoId
         const subId = e.currentTarget.id;
@@ -82,25 +90,25 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
         <li key={sub.subId} className={completed ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"}>
             {edit ? 
             <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
-                <img src={saveIcon} alt="save icon" className="w-6"/>
+                <img src={saveIcon} alt="save edited sub task" className="w-6"/>
             </button> 
             : 
             <button id={sub.subId.toString()} onClick={completeSubTask} className="m-1 pl-1 pr-1 cursor-pointer">
-                <img src={doneIcon} alt="done icon" className="w-7"/>
+                <img src={doneIcon} alt="mark sub task as done" className="w-7"/>
             </button>}
 
             
 
             {edit ? 
-            <input onChange={e => setEditedSubTask(e.currentTarget.value)} className="m-1 border rounded col-start-2 col-end-4"/>
+            <input onChange={e => setEditedSubTask(e.currentTarget.value)} ref={inputEditSubTaskRef} className="m-1 border rounded col-start-2 col-end-4"/>
             :
             <div className="flex col-start-2 col-end-4 justify-center">
                 <p className={completed ? 'text-base self-center text-lightgray line-through' : 'text-base self-center'}>{sub.task}</p>
             </div>}
 
             <div className="flex content-center">
-                <button id={sub.subId.toString()} onClick={() => setEdit(edit => !edit)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit icon" className="w-9"/></button> 
-                <button id={sub.subId.toString()} onClick={e => deleteSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete icon" className="w-10"/></button>
+                <button id={sub.subId.toString()} onClick={editSubTask} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit sub task" className="w-9"/></button> 
+                <button id={sub.subId.toString()} onClick={e => deleteSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete sub task" className="w-10"/></button>
             </div>
         </li>
     )

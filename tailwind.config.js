@@ -11,15 +11,20 @@ module.exports = {
         },
         gridTemplateColumns: {
           'NavBar': '200px minmax(500px, 1fr) 200px',
+        },
+          textColor: {
+            'lightgray': '#918d8a',
+            'textblue' : '#053156',
+          },
+          colors: {
+          transparent: 'transparent',
+          current: 'currentColor'
+        },
+        backgroundColor: {
+          liblue: '#F4F4F4',
+          liblue1: '#1291FF'
         }
       },
-      textColor: {
-        'lightgray': '#918d8a'
-      },
-      colors: {
-      transparent: 'transparent',
-      current: 'currentColor'
-    }
     },
     variants: {
       extend: {},

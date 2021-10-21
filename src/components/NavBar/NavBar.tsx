@@ -1,16 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-/* 
-Logga
-Profile
-*/
 
 const NavBar = () => {
     return (
-        <nav className="grid grid-cols-3 border-b h-10">
-            <Link to="/">R</Link>
-            <Link to="/">Home</Link>
-            <Link to="/profile">Profile</Link>
+        <nav className="flex justify-around items-center h-12">
+            <Link to="/" className="text-lg text-textblue">HOME</Link>
+            <Link to="/profile" className="text-lg text-textblue">PROFILE</Link>
         </nav>
     )
 }

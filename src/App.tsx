@@ -27,7 +27,7 @@ const App = () => {
   
 
   return (
-    <div className="flex w-full flex-col">
+    <div id="app" className="flex w-full flex-col">
       <AuthProvider>
         <NavBar />
         <Switch>

@@ -9,18 +9,12 @@ interface TodoListProps {
 
 const TodoList = ({ todos, socket }: TodoListProps) => {
 
-    // const [edit, setEdit] = useState<boolean>(false);
-
     return (
-        <>
-            <h2>Todo List</h2>
-            <ul className="flex flex-col border rounded m-5 p-1">
-                {/* <p onClick={() => edit ? setEdit(false) : setEdit(true)}>Edit</p> */}
-                {todos ? todos.map((todo: Todo) => {
+            <ul className="flex flex-col border border-blue-900 rounded-lg mt-5 mb-5 m-5 pt-5 pb-5 bg-white">
+                {todos && todos.map((todo: Todo) => {
                 return <Todo todo={todo} key={todo.todoId} socket={socket}/>
-                }) : ''}
+                })}
             </ul>
-        </>
     )
 }
 
