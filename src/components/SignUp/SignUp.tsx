@@ -2,12 +2,14 @@ import React, { useRef } from "react";
 import { auth } from "../../firebase";
 import { ToastContainer } from 'react-toastify';
 import { notify } from '../../utils/index'
+import { useHistory } from "react-router";
 
 const SignUp = () => {
 
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
+    const history = useHistory();
 
     const isValidEmail = (email: string) => {
         const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -41,15 +43,17 @@ const SignUp = () => {
       };
 
   return (
-    <div>
-        <form>
-            <input type="email" placeholder="email" ref={emailRef} />
-            <input type="password" placeholder="password" ref={passwordRef}/>
-            <input type="password" placeholder="Confirm password" ref={confirmPasswordRef}/>
-            <button type="button" onClick={createAccount}>Sign Up</button>
-        </form>
+    <>
+        <form className="mt-20 flex flex-col m-auto">
+          <h2 className="h2">Create your new account</h2>
+            <input className="mt-5" type="email" placeholder="email" ref={emailRef} />
+            <input className="mt-3" type="password" placeholder="password" ref={passwordRef}/>
+            <input className="mt-3 mb-10" type="password" placeholder="Confirm password" ref={confirmPasswordRef}/>
+            <button className="button" type="button" onClick={createAccount}>Sign Up</button>
         <ToastContainer />
-    </div>
+        </form>
+        <button className="button" type="button" onClick={() => history.push('/login')}>Log In</button>
+    </>
   );
 }
 

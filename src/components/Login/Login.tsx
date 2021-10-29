@@ -23,21 +23,21 @@ const Login = () => {
         }
       };
 
-      const signOut = async () => {
-        await auth.signOut();
-      };
+      // const signOut = async () => {
+      //   await auth.signOut();
+      // };
 
   return (
-    <div>
-        <h2>Sign in</h2>
-        <form>
-            <input type="email" placeholder="email" ref={emailRef} />
-            <input type="password" placeholder="password" ref={passwordRef}/>
-            <button type="submit" onClick={e => signIn(e)}>Sign In</button>
+    <div className="mt-16">
+        <h2 className="h2">Sign in</h2>
+        <form className="flex flex-col max-w-3/4 m-auto justify-items-center justify-center">
+            <input className="mb-3" type="email" placeholder="email" ref={emailRef} />
+            <input type="password" placeholder="password" ref={passwordRef} className="mb-5"/>
+            <button type="submit" onClick={e => signIn(e)} className="button">Sign In</button>
+            <button className="button" onClick={() => history.push('/signup')}>Create a new account</button>
         </form>
         
-        <button className="button" onClick={() => history.push('/signup')}>Create a new account</button>
-        <button className="h-8 px-4 m-2 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" onClick={signOut}>Sign out</button>
+        {/* <button className="button" onClick={signOut}>Sign out</button> */}
     </div>
   );
 }

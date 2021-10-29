@@ -10,11 +10,16 @@ interface TodoListProps {
 const TodoList = ({ todos, socket }: TodoListProps) => {
 
     return (
-            <ul className="flex flex-col border border-blue-900 rounded-lg mt-5 mb-5 m-5 pt-5 pb-5 bg-white">
+        <>
+            {/* <p>Filter</p>
+            <button className="button">To do</button>
+            <button className="button">Done</button> */}
+            <ul className="flex flex-col m-5 pt-5 bg-white">
                 {todos && todos.map((todo: Todo) => {
                 return <Todo todo={todo} key={todo.todoId} socket={socket}/>
                 })}
             </ul>
+        </>
     )
 }
 

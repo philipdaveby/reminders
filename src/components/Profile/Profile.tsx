@@ -27,9 +27,9 @@ const Profile = () => {
     return (
         <div>
             {user ? <div>
-                <h1 className="text-2xl mt-5">This is the profile page</h1>
-                <p>Your email: {email}</p>
-                <button onClick={logOut}>Sign Out</button>
+                <h1 className="text-2xl mt-20">Profile</h1>
+                <p className="text-lg mt-20 mb-10">Your email: {email}</p>
+                <button onClick={logOut} className="button">Sign Out</button>
             </div>  : <Login />}
         </div>
     )

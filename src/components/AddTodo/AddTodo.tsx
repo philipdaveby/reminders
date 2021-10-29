@@ -37,7 +37,7 @@ const AddTodo = ({ todos, setTodos, socket }: AddTodoProps) => {
     return (
         <div className="mb-4">
             <form onSubmit={e => handleSubmit(e)}>
-                <input type="text" name="task" placeholder="Enter you todo..." className="rounded" />
+                <input type="text" name="task" placeholder="Enter you todo..." className="rounded mr-5" />
                 <button type="submit" className="button">Add Todo</button>
             </form>
         </div>

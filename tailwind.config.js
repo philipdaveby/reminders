@@ -4,6 +4,11 @@ module.exports = {
    purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
     darkMode: false, // or 'media' or 'class'
     theme: {
+      maxWidth: {
+        '1/4': '25%',
+        '1/2': '50%',
+        '3/4': '75%',
+              },
       extend: {
         fontFamily: {
           roboto: ['Roboto', 'Sans'],
@@ -22,7 +27,8 @@ module.exports = {
         },
         backgroundColor: {
           liblue: '#F4F4F4',
-          liblue1: '#1291FF'
+          liblue1: '#1291FF',
+          li: '#F3EFF2'
         }
       },
     },
