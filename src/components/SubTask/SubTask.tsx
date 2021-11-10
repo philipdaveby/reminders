@@ -3,6 +3,7 @@ import deleteIcon from '../../icons/delete1.png'
 import editIcon from '../../icons/edit1.png'
 import doneIcon from '../../icons/done2.png'
 import saveIcon from '../../icons/save1.png'
+import closeIcon from '../../icons/close1.png'
 import firebase from 'firebase/app'
 import config from '../../utils/config'
 import { Socket } from 'socket.io-client';
@@ -107,7 +108,8 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
             </div>}
 
             <div className="flex content-center">
-                <button id={sub.subId.toString()} onClick={editSubTask} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit sub task" className="w-9"/></button> 
+                <button id={sub.subId.toString()} onClick={editSubTask} className={edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="edit sub task" className="w-9"/></button> 
+                <button id={sub.subId.toString()} onClick={editSubTask} className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="edit sub task" className="w-9"/></button> 
                 <button id={sub.subId.toString()} onClick={e => deleteSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete sub task" className="w-10"/></button>
             </div>
         </li>

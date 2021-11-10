@@ -19,6 +19,8 @@ const AddTodo = ({ todos, setTodos, socket }: AddTodoProps) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const task = e.currentTarget.task.value;
+        if (!task) return;
+        
         e.currentTarget.task.value = ''
         await user?.getIdToken(true)
             .then(async idToken => {

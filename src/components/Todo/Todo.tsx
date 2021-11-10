@@ -156,7 +156,8 @@ const Todo = ({ todo, socket }: TodoProps) => {
                 {!edit && <button id={todo.todoId.toString()} onClick={e => completeTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={doneIcon} alt="mark todo as done" className="w-7"/></button>}
                 {edit && <button id={todo.todoId.toString()} onClick={e => saveTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save todo" className="w-7"/></button>}
                 <button id={todo.todoId.toString()} onClick={() => addSubTask()} className="m-1 pl-1 pr-1 cursor-pointer"><img src={addIcon} alt="add new todo" className="w-7"/></button>
-                <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={editIcon} alt="edit todo" className="w-7"/></button> 
+                <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className={edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="edit todo" className="w-7"/></button> 
+                <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="edit todo" className="w-7"/></button> 
                 <button id={todo.todoId.toString()} onClick={e => deleteTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete todo" className="w-8"/></button> 
             </div>
         </li>
