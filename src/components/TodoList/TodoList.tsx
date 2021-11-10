@@ -14,7 +14,7 @@ const TodoList = ({ todos, socket }: TodoListProps) => {
             {/* <p>Filter</p>
             <button className="button">To do</button>
             <button className="button">Done</button> */}
-            <ul className="flex flex-col m-5 pt-5 bg-white">
+            <ul className="flex flex-col pt-5 bg-white m-auto overscroll-auto">
                 {todos && todos.map((todo: Todo) => {
                 return <Todo todo={todo} key={todo.todoId} socket={socket}/>
                 })}

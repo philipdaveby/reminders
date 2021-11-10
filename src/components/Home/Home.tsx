@@ -51,6 +51,7 @@ const Home = ({ socket }: HomeProps) => {
                         const res = await response.json();
                         if (res !== todos) {
                             localStorage.setItem('todos', JSON.stringify(res));
+                            setTodos(res)
                         }
                         // setLoading(false);
                     })
@@ -65,12 +66,12 @@ const Home = ({ socket }: HomeProps) => {
 
     return (
         <>
-            {user ? <div>
-                <h1 className="text-3xl mt-5 font-roboto">REMINDERS</h1>
+            {user ? <main className='h-full'>
+                <h1 className="text-3xl mt-14 font-roboto">REMINDERS</h1>
                 {/* <img src={logo} alt="Reminders logo" className="max-w-xs m-auto p-5"/> */}
                 <TodoList todos={todos} socket={socket} />
                 <AddTodo todos={todos} setTodos={setTodos} socket={socket}/>
-            </div>  
+            </main>  
             : <LoadingPage />}
         </>
     )
