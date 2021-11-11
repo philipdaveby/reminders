@@ -4,7 +4,7 @@ type Todo = {
     isComplete: boolean,
     todoId: string,
     _id: string,
-    owner: string,
+    userId: string,
     locked: boolean,
     subTasks: [SubTask]
 }
@@ -14,7 +14,7 @@ type SubTask = {
     isComplete: boolean,
     subId: string,
     _id: string,
-    owner: string,
+    userId: string,
     locked: boolean
 }
 

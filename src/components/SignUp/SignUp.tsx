@@ -37,6 +37,7 @@ const SignUp = () => {
                 passwordRef.current!.value
                 );
                 notify('You have completed your signup!');
+                history.push('/')
         } catch (error) {
           console.error(error);
         }

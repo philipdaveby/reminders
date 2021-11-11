@@ -1,14 +1,14 @@
 import React, { useRef } from "react";
-// import { AuthContext } from "../../contexts/AuthContext";
 import { auth } from "../../firebase";
 import { useHistory } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify';
+import { notify } from '../../utils/index'
 
 const Login = () => {
 
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const history = useHistory();
-    // const user = useContext(AuthContext);
 
     const signIn = async (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -18,14 +18,16 @@ const Login = () => {
             passwordRef.current!.value
           );
           history.push('/');
-        } catch (error) {
+        } catch (error: any) {
+          if (error.code === "auth/user-not-found") {
+            notify('There is no user record corresponding to this identifier. Please try again');
+          }
+          if (error.code === "auth/wrong-password") {
+            notify('The password is invalid. Please try again');
+          }
           console.error(error);
         }
       };
-
-      // const signOut = async () => {
-      //   await auth.signOut();
-      // };
 
   return (
     <div className="mt-16">
@@ -35,9 +37,8 @@ const Login = () => {
             <input type="password" placeholder="password" ref={passwordRef} className="mb-5"/>
             <button type="submit" onClick={e => signIn(e)} className="button">Sign In</button>
             <button className="button" onClick={() => history.push('/signup')}>Create a new account</button>
+            <ToastContainer />
         </form>
-        
-        {/* <button className="button" onClick={signOut}>Sign out</button> */}
     </div>
   );
 }

@@ -90,17 +90,6 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
     return (
         <li key={sub.subId} className={completed ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"}>
             {edit ? 
-            <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
-                <img src={saveIcon} alt="save edited sub task" className="w-6"/>
-            </button> 
-            : 
-            <button id={sub.subId.toString()} onClick={completeSubTask} className="m-1 pl-1 pr-1 cursor-pointer">
-                <img src={doneIcon} alt="mark sub task as done" className="w-7"/>
-            </button>}
-
-            
-
-            {edit ? 
             <input onChange={e => setEditedSubTask(e.currentTarget.value)} ref={inputEditSubTaskRef} className="m-1 border rounded col-start-2 col-end-4"/>
             :
             <div className="flex col-start-2 col-end-4 justify-center">
@@ -108,9 +97,17 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
             </div>}
 
             <div className="flex content-center">
-                <button id={sub.subId.toString()} onClick={editSubTask} className={edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="edit sub task" className="w-9"/></button> 
-                <button id={sub.subId.toString()} onClick={editSubTask} className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="edit sub task" className="w-9"/></button> 
-                <button id={sub.subId.toString()} onClick={e => deleteSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete sub task" className="w-10"/></button>
+                {edit ? 
+                <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
+                    <img src={saveIcon} alt="save edited sub task" className="w-7"/>
+                </button> 
+                : 
+                <button id={sub.subId.toString()} onClick={completeSubTask} className="m-1 pl-1 pr-1 cursor-pointer">
+                    <img src={doneIcon} alt="mark sub task as done" className="w-7"/>
+                </button>}
+                <button id={sub.subId.toString()} onClick={editSubTask} className={edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="edit sub task" className="w-7"/></button> 
+                <button id={sub.subId.toString()} onClick={editSubTask} className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="edit sub task" className="w-7"/></button> 
+                <button id={sub.subId.toString()} onClick={e => deleteSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete sub task" className="w-8"/></button>
             </div>
         </li>
     )
