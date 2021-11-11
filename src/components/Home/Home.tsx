@@ -16,22 +16,27 @@ interface HomeProps {
 const Home = ({ socket }: HomeProps) => {
     
     let [todos, setTodos] = useState<Array<Todo> | null>(null);
-    const [cookies, setCookie] = useCookies(['user']);
+    const [cookies, setCookie] = useCookies(['user', 'email']);
     const [loading, setLoading] = useState<boolean>(true);
     const history = useHistory();
     
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(user => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(user => {
             if (!user || !cookies) {
                 history.push('/login');
                 return;
             }
+            console.log(user.email)
             user ? setLoading(false) : setLoading(true)
             const localTodos = localStorage.getItem('todos')
             localTodos && setTodos(JSON.parse(localTodos))
             setCookie('user', user.uid)
+            setCookie('email', user.email)
+            console.log(cookies.user)
+            console.log(cookies.email)
             getTodos();
         })
+        return () => unsubscribe();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     

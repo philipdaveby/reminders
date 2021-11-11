@@ -31,8 +31,10 @@ const TodoList = ({ todos, socket, setTodos, getTodos }: TodoListProps) => {
     }
 
     return (
-        <>
-            <button onClick={() => setFiltered(!filtered)} className='w-full flex justify-end pr-10'><img className={filtered ? 'w-14 transform rotate-90 border-2 rounded-full' : 'w-14 transform rotate-90'} src={filterIcon} alt='Filter your todos'/></button>
+        <>  
+            <div className='w-full flex justify-end pr-10'>
+                <button onClick={() => setFiltered(!filtered)} className=''><img className={filtered ? 'w-14 transform rotate-90 border-2 rounded-full' : 'w-14 transform rotate-90'} src={filterIcon} alt='Filter your todos'/></button>
+            </div>
             {!filtered ? <ul className="flex flex-col pb-16 bg-white m-auto overscroll-auto">
                 {todos && todos.map((todo: Todo) => {
                 return <Todo getTodos={getTodos} setTodos={setTodos} todo={todo} key={todo.todoId} socket={socket}/>

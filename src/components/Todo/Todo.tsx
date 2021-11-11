@@ -158,10 +158,28 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
             if (providers.length === 0) {
                 console.log('Empty')
                 notify('Thers is no existing account with that e-mail address');
-            } else {
-                notify(`You have added ${addingCollaborator} as a collaborator to your todo!`);
-                // Lägg till personer till collaborators i todo
+                return;
             }
+            const id = e.currentTarget.id;
+            firebase.auth().currentUser?.getIdToken(true)
+                .then(async idToken => {
+                        await fetch(`${config.backend_url}/api/todos/${id}`, {
+                                method: 'PATCH',
+                                headers: {
+                                        'Authorization': idToken,
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                            collaborator: addingCollaborator
+                                        })
+                                    })
+                                .catch(error => console.log(error.message));
+                            }).then(() => {
+                                socket.emit('add-todo')
+                                notify(`You have added ${addingCollaborator} as a collaborator to your todo!`);
+                        })
+                        .catch(error => console.log(error.message));
+                // Lägg till personer till collaborators i todo
             });
         setAddingCollaborator(null)
 
