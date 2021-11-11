@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import firebase from 'firebase/app'
 import { Socket } from 'socket.io-client';
 import config from '../../utils/config';
+import { ToastContainer } from 'react-toastify';
+import { notify } from '../../utils/index'
+
 import deleteIcon from '../../icons/delete1.png'
 import editIcon from '../../icons/edit1.png'
 import doneIcon from '../../icons/done2.png'
@@ -145,14 +148,24 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
     }
     
     const addCollaborator = (e: React.FormEvent<HTMLButtonElement>) => {
+        if (!addingCollaborator) return;
         setAddPerson(false);
         console.log(e.currentTarget.id)
         console.log(addingCollaborator)
-        // Kolla om användare finns? 
-        // Notis om användare har lagts till
-        // Notis om användare inte finns
-        // Lägg till personer till collaborators i todo
-        
+
+        firebase.auth().fetchSignInMethodsForEmail(addingCollaborator)
+            .then(providers => {
+            if (providers.length === 0) {
+                console.log('Empty')
+                notify('Thers is no existing account with that e-mail address');
+            } else {
+                notify(`You have added ${addingCollaborator} as a collaborator to your todo!`);
+                // Lägg till personer till collaborators i todo
+            }
+            });
+        setAddingCollaborator(null)
+
+
         // Hur ska man se vilka som har tillgång till listan?
         // - Lägg till Personicon om den är delad
     }
@@ -182,7 +195,7 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
 
                 {addPerson &&
                 <div className="flex content-center justify-center">
-                    <input onChange={e => setAddingCollaborator(e.currentTarget.value)} ref={inputAddPersonRef} className="m-1 border rounded"/>
+                    <input onChange={e => setAddingCollaborator(e.currentTarget.value)} placeholder='Enter email to add..' ref={inputAddPersonRef} className="m-1 w-60 border rounded"/>
                     <div>
                         <button id={todo.todoId.toString()} onClick={e => addCollaborator(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save sub task" className="w-7"/></button>
                         <button id={todo.todoId.toString()} onClick={() => setAddPerson(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
@@ -199,6 +212,7 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
                 <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="edit todo" className="w-7"/></button> 
                 <button id={todo.todoId.toString()} onClick={e => deleteTodo(e)} className="pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete todo" className="w-8"/></button> 
             </div>
+            <ToastContainer />
         </li>
     )
 }
