@@ -37,16 +37,16 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
         const id = e.currentTarget.id;
         await firebase.auth().currentUser?.getIdToken(true)
             .then(async idToken => {
-        const response = await fetch(`${config.backend_url}/api/todos/${id}`, {
-            method: 'PATCH',
-            headers: {
-                'Authorization': idToken,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                isComplete: !completed
+            await fetch(`${config.backend_url}/api/todos/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': idToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    isComplete: !completed
+                })
             })
-        })
         getTodos();
     })
     .catch(error => console.log(error.message));
@@ -143,10 +143,16 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
             inputAddPersonRef.current?.focus();
         });
     }
-
+    
     const addCollaborator = (e: React.FormEvent<HTMLButtonElement>) => {
-        // Öppna upp input
+        setAddPerson(false);
+        console.log(e.currentTarget.id)
+        console.log(addingCollaborator)
+        // Kolla om användare finns? 
+        // Notis om användare har lagts till
+        // Notis om användare inte finns
         // Lägg till personer till collaborators i todo
+        
         // Hur ska man se vilka som har tillgång till listan?
         // - Lägg till Personicon om den är delad
     }
@@ -154,8 +160,6 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
     return (
         <li className={completed ? "border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-last" : "border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-first"}>
             {edit ? <input ref={inputEditTodoRef} onChange={e => setEditedTodo(e.currentTarget.value)} className="m-1 border rounded"/>
-            : 
-            addPerson ? <input ref={inputAddPersonRef} onChange={e => setAddingCollaborator(e.currentTarget.value)} className="m-1 border rounded"/>
             : 
             <div id={todo.todoId.toString()}>
                 <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through cursor-pointer' : 'text-lg cursor-pointer'} >
@@ -176,9 +180,19 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
                     </div>
                 </div>}
 
+                {addPerson &&
+                <div className="flex content-center justify-center">
+                    <input onChange={e => setAddingCollaborator(e.currentTarget.value)} ref={inputAddPersonRef} className="m-1 border rounded"/>
+                    <div>
+                        <button id={todo.todoId.toString()} onClick={e => addCollaborator(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save sub task" className="w-7"/></button>
+                        <button id={todo.todoId.toString()} onClick={() => setAddPerson(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
+                    </div>
+                </div>}
+
             <div>
                 {!edit && <button id={todo.todoId.toString()} onClick={e => completeTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={doneIcon} alt="mark todo as done" className="w-7"/></button>}
                 {edit && <button id={todo.todoId.toString()} onClick={e => saveTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save todo" className="w-7"/></button>}
+                {/* {addPerson && <button id={todo.todoId.toString()} onClick={e => addCollaborator(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save todo" className="w-7"/></button>} */}
                 <button id={todo.todoId.toString()} onClick={() => addSubTask()} className="m-1 pl-1 pr-1 cursor-pointer"><img src={addIcon} alt="add new todo" className="w-7"/></button>
                 <button id={todo.todoId.toString()} onClick={e => addPersonInput(e)} className="pl-1 pr-1 cursor-pointer"><img src={addPersonIcon} alt="add person to todo" className="w-7"/></button> 
                 <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className={edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="edit todo" className="w-7"/></button> 

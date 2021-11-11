@@ -5,6 +5,7 @@ type Todo = {
     todoId: string,
     _id: string,
     userId: string,
+    collaborators: [String],
     locked: boolean,
     subTasks: [SubTask]
 }
