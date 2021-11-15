@@ -148,19 +148,26 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
     }
     
     const addCollaborator = (e: React.FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const id = e.currentTarget.id;
         if (!addingCollaborator) return;
+        if (todo.collaborators.includes(addingCollaborator)) {
+            notify('The collaborator already has access.');
+            return;
+        }
         setAddPerson(false);
-        console.log(e.currentTarget.id)
-        console.log(addingCollaborator)
-
+        
+        // console.log(e.currentTarget.id)
+        // console.log(addingCollaborator)
+        
         firebase.auth().fetchSignInMethodsForEmail(addingCollaborator)
-            .then(providers => {
+        .then(providers => {
             if (providers.length === 0) {
                 console.log('Empty')
                 notify('Thers is no existing account with that e-mail address');
                 return;
             }
-            const id = e.currentTarget.id;
+            console.log(id)
             firebase.auth().currentUser?.getIdToken(true)
                 .then(async idToken => {
                         await fetch(`${config.backend_url}/api/todos/${id}`, {
@@ -175,10 +182,11 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
                                     })
                                 .catch(error => console.log(error.message));
                             }).then(() => {
+                                console.log('1')
                                 socket.emit('add-todo')
                                 notify(`You have added ${addingCollaborator} as a collaborator to your todo!`);
-                        })
-                        .catch(error => console.log(error.message));
+                            }).catch(error => console.log(error.message));
+                            console.log('2')
                 // Lägg till personer till collaborators i todo
             });
         setAddingCollaborator(null)
@@ -215,7 +223,7 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
                 <div className="flex content-center justify-center">
                     <input onChange={e => setAddingCollaborator(e.currentTarget.value)} placeholder='Enter email to add..' ref={inputAddPersonRef} className="m-1 w-60 border rounded"/>
                     <div>
-                        <button id={todo.todoId.toString()} onClick={e => addCollaborator(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save sub task" className="w-7"/></button>
+                        <button id={todo.todoId.toString()} onClick={e => addCollaborator(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save sub task" className="w-7" id={todo.todoId.toString()} /></button>
                         <button id={todo.todoId.toString()} onClick={() => setAddPerson(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
                     </div>
                 </div>}
