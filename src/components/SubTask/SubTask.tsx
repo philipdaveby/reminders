@@ -64,7 +64,8 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
         });
     }
 
-    const saveEditedSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
+    const saveEditedSubTask = async (e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const id = todo.todoId
         const subId = e.currentTarget.id;
         await firebase.auth().currentUser?.getIdToken(true)
@@ -98,7 +99,9 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
                     <img src={doneIcon} alt="mark sub task as done" className="w-7"/>
                 </button>}
             {edit ? 
-            <input onChange={e => setEditedSubTask(e.currentTarget.value)} ref={inputEditSubTaskRef} className="m-1 border rounded col-start-2 col-end-4"/>
+            <form className="m-1 border rounded col-start-2 col-end-4" onSubmit={e => saveEditedSubTask(e)} id={sub.subId.toString()} >
+                <input onChange={e => setEditedSubTask(e.currentTarget.value)} ref={inputEditSubTaskRef} defaultValue={sub.task} />
+        </form>
             :
             <div className="flex col-start-2 col-end-4 justify-center">
                 <p className={completed ? 'text-base self-center text-lightgray line-through' : 'text-base self-center'}>{sub.task}</p>

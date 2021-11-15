@@ -5,15 +5,18 @@ import config from '../../utils/config';
 import closeIcon from '../../icons/close1.png'
 import addIcon from '../../icons/add1.png'
 import saveIcon from '../../icons/save1.png'
+import filterIcon from '../../icons/filter.png'
 
 interface AddTodoProps {
     socket: Socket,
     addInput: boolean,
     setAddInput: any,
-    todos: Array<Todo> | null
+    todos: Array<Todo> | null,
+    filtered: boolean,
+    setFiltered: any
 }
 
-const AddTodo = ({ socket, addInput, setAddInput, todos }: AddTodoProps) => {
+const AddTodo = ({ socket, addInput, setAddInput, todos, filtered, setFiltered }: AddTodoProps) => {
 
     const user = useContext(AuthContext);
     const inputAddTodoRef = useRef<HTMLInputElement>(null);
@@ -52,14 +55,12 @@ const AddTodo = ({ socket, addInput, setAddInput, todos }: AddTodoProps) => {
     }
 
     return (
-            <form onSubmit={e => handleSubmit(e)} className='flex justify-evenly items-center fixed bottom-0 w-full bg-white p-2'>
-                <div></div>
-                <div className='flex justify-evenly items-center'>
-                    <input ref={inputAddTodoRef} type="text" name="task" placeholder="Enter you todo..." className={!addInput ? 'invisible rounded mr-5' : 'rounded mr-5'} />
-                    <button type="submit" className={!addInput ? 'invisible' : ''}><img className='w-11' src={saveIcon} alt='Add todo'/></button>
-                </div>
+            <form onSubmit={e => handleSubmit(e)} className='flex justify-evenly items-center fixed bottom-2 w-full p-2 z-10'>
+                <button type="submit" className={!addInput ? 'invisible' : ''}><img className='w-11' src={saveIcon} alt='Add todo'/></button>
+                <input ref={inputAddTodoRef} type="text" name="task" placeholder="Enter you todo..." className={!addInput ? 'invisible rounded mx-3' : 'rounded mx-3'} />
                 <img src={closeIcon} alt='Close todo input' className={!addInput ? 'w-12 cursor-pointer hidden' : 'w-12 cursor-pointer'} onClick={() => setAddInput(!addInput)} />
-                {todos && todos[0] && <img src={addIcon} alt='add new todo' className={addInput ? 'w-14 cursor-pointer hidden' : 'w-14 cursor-pointer'} onClick={handleAddInput} />}
+                {todos && todos[0] && <img src={addIcon} alt='add new todo' className={addInput ? 'w-12 cursor-pointer hidden' : 'w-12 cursor-pointer'} onClick={handleAddInput} />}
+                {todos && todos[0] && <button type='button' onClick={() => setFiltered(!filtered)} className=''><img className={filtered ? 'w-14 transform rotate-90 border-2 rounded-full' : 'w-14 transform rotate-90'} src={filterIcon} alt='Filter your todos'/></button>}
             </form>
     )
 }

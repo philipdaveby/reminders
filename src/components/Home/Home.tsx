@@ -22,6 +22,7 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
     const [cookies, setCookie] = useCookies(['user', 'email']);
     const [loading, setLoading] = useState<boolean>(true);
     const [addInput, setAddInput] = useState<boolean>(false)
+    const [filtered, setFiltered] = useState<boolean>(false);
     const history = useHistory();
     
     useEffect(() => {
@@ -79,9 +80,9 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
         <>
             {!loading || !cookies ? <main className='h-full'>
                 {/* <h1 className="text-3xl mt-14 font-roboto">REMINDERS</h1> */}
-                <img className='mt-14 mx-auto max-w-sm px-5' src={logo} alt='Reminders logo'/>
-                <TodoList getTodos={getTodos} todos={todos} setTodos={setTodos} socket={socket} setAddInput={setAddInput} />
-                <AddTodo socket={socket} addInput={addInput} setAddInput={setAddInput} todos={todos}/>
+                <img className='mt-16 mx-auto w-4/5 max-w-sm' src={logo} alt='Reminders logo'/>
+                <TodoList getTodos={getTodos} todos={todos} setTodos={setTodos} socket={socket} setAddInput={setAddInput} filtered={filtered} setFiltered={setFiltered} />
+                <AddTodo socket={socket} addInput={addInput} setAddInput={setAddInput} todos={todos} filtered={filtered} setFiltered={setFiltered} />
             </main>  
             : <div></div>}
             {/* : <LoadingPage loading={loading} setLoading={setLoading}/>} */}

@@ -14,6 +14,7 @@ import closeIcon from '../../icons/close1.png'
 import addPersonIcon from '../../icons/addPerson4.png'
 import arrowIcon from '../../icons/arrow.png'
 import sendIcon from '../../icons/send.png'
+import collaboratorIcon from '../../icons/person.png'
 import SubTask from '../SubTask/SubTask';
 
 
@@ -74,14 +75,12 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
     
     const saveTodo = async (e:  React.FormEvent<HTMLFormElement> | React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        console.log(e)
         if (!editedTodo) {
             setEdit(edit => !edit);
             return;
         }
         setEdit(false);
         const id = e.currentTarget.id;
-        console.log(id)
         await firebase.auth().currentUser?.getIdToken(true)
         .then(async idToken => {
                 await fetch(`${config.backend_url}/api/todos/${id}`, {
@@ -150,7 +149,7 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
         });
     }
     
-    const addCollaborator = (e: React.FormEvent<HTMLButtonElement>) => {
+    const addCollaborator = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const id = e.currentTarget.id;
         if (!addingCollaborator) return;
@@ -162,7 +161,6 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
         firebase.auth().fetchSignInMethodsForEmail(addingCollaborator)
         .then(providers => {
             if (providers.length === 0) {
-                console.log('Empty')
                 notify("There is no existing account with that e-mail address");
                 return;
             }
@@ -205,11 +203,12 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
                 <input ref={inputEditTodoRef} onChange={e => setEditedTodo(e.currentTarget.value)} defaultValue={todo.task} className="m-1 border rounded"/>
             </form>
             : 
-            <div id={todo.todoId.toString()} className='relative'>
-                    <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through cursor-pointer' : 'text-lg cursor-pointer'} >
-                        {todo.task}
-                    </h3>
-                    {todo.subTasks[0] && <img src={arrowIcon} onClick={openSubTasks} alt="Open sub tasks" className={openSubTask ? "w-7 absolute top-1 right-1 cursor-pointer transform rotate-180" : "w-7 absolute top-1 right-1 cursor-pointer"}/>}
+            <div id={todo.todoId.toString()} className='relative mb-2'>
+                {todo.collaborators[0] && <button id={todo.todoId.toString()} className="absolute top-1 left-1 cursor-pointer"><img src={collaboratorIcon} alt="You are collaborating on this todo" className="w-7"/></button> }
+                <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through cursor-pointer w-10 m-auto border-b' : 'text-lg cursor-pointer w-10 m-auto border-b'} >
+                    {todo.task}
+                </h3>
+                {todo.subTasks[0] && <img src={arrowIcon} onClick={openSubTasks} alt="Open sub tasks" className={openSubTask ? "w-7 absolute top-1 right-1 cursor-pointer transform rotate-180" : "w-7 absolute top-1 right-1 cursor-pointer"}/>}
             </div>}
             <ul className="flex flex-col">
                 {openSubTask && todo.subTasks.map((sub: SubTask, index: number) => {
@@ -219,25 +218,20 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
             {addSubTaskInput &&
             <form className="flex content-center justify-center" onSubmit={e => sendNewSubTask(e)} id={todo.todoId.toString()} >
                 <input onChange={e => setNewSubTask(e.currentTarget.value)} ref={inputSubTaskRef} className="m-1 border rounded"/>
-                    <button type="submit" className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save sub task" className="w-7"/></button>
-                <div>
-                    <button onClick={() => setAddSubTaskInput(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
-                </div>
+                <button type="submit" className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save sub task" className="w-7"/></button>
+                <button type="button" onClick={() => setAddSubTaskInput(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
             </form>}
 
             {addPerson &&
-            <div className="flex content-center justify-center">
-                <input onChange={e => setAddingCollaborator(e.currentTarget.value)} placeholder='Enter email to add..' ref={inputAddPersonRef} className="m-1 w-60 border rounded"/>
-                <div>
-                    <button id={todo.todoId.toString()} onClick={e => addCollaborator(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={sendIcon} alt="save sub task" className="w-7" id={todo.todoId.toString()} /></button>
-                    <button id={todo.todoId.toString()} onClick={() => setAddPerson(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
-                </div>
-            </div>}
+            <form onSubmit={e => addCollaborator(e)} id={todo.todoId.toString()} className="flex content-center justify-center">
+                <button type='submit' id={todo.todoId.toString()} className="m-1 pl-1 pr-1 cursor-pointer"><img src={sendIcon} alt="save sub task" className="w-7" id={todo.todoId.toString()} /></button>
+                <input onChange={e => setAddingCollaborator(e.currentTarget.value)} placeholder='Enter email to add person..' ref={inputAddPersonRef} className="m-1 w-60 border rounded"/>
+                <button type="button" onClick={() => setAddPerson(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
+            </form>}
 
             <div>
                 {!edit && <button id={todo.todoId.toString()} onClick={e => completeTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={doneIcon} alt="mark todo as done" className="w-7"/></button>}
                 {edit && <button id={todo.todoId.toString()} onClick={e => saveTodo(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save todo" className="w-7"/></button>}
-                {/* {addPerson && <button id={todo.todoId.toString()} onClick={e => addCollaborator(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save todo" className="w-7"/></button>} */}
                 <button id={todo.todoId.toString()} onClick={() => addSubTask()} className="m-1 pl-1 pr-1 cursor-pointer"><img src={addIcon} alt="add new todo" className="w-7"/></button>
                 <button id={todo.todoId.toString()} onClick={e => addPersonInput(e)} className="pl-1 pr-1 cursor-pointer"><img src={addPersonIcon} alt="add person to todo" className="w-7"/></button> 
                 <button id={todo.todoId.toString()} onClick={e => editTodo(e)} className={edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="edit todo" className="w-7"/></button> 
