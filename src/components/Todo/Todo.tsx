@@ -12,6 +12,8 @@ import saveIcon from '../../icons/save1.png'
 import addIcon from '../../icons/add1.png'
 import closeIcon from '../../icons/close1.png'
 import addPersonIcon from '../../icons/addPerson4.png'
+import arrowIcon from '../../icons/arrow.png'
+import sendIcon from '../../icons/send.png'
 import SubTask from '../SubTask/SubTask';
 
 
@@ -155,16 +157,12 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
             notify('The collaborator already has access.');
             return;
         }
-        setAddPerson(false);
-        
-        // console.log(e.currentTarget.id)
-        // console.log(addingCollaborator)
         
         firebase.auth().fetchSignInMethodsForEmail(addingCollaborator)
         .then(providers => {
             if (providers.length === 0) {
                 console.log('Empty')
-                notify('Thers is no existing account with that e-mail address');
+                notify("There is no existing account with that e-mail address");
                 return;
             }
             console.log(id)
@@ -182,12 +180,15 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
                                     })
                                 .catch(error => console.log(error.message));
                             }).then(() => {
-                                console.log('1')
                                 socket.emit('add-todo')
+                                setAddPerson(false);
                                 notify(`You have added ${addingCollaborator} as a collaborator to your todo!`);
                             }).catch(error => console.log(error.message));
-                            console.log('2')
-                // Lägg till personer till collaborators i todo
+            })
+            .catch(error => {
+                if (error.code === 'auth/invalid-email') {
+                    notify('Please enter a valid e-mail address');
+                }
             });
         setAddingCollaborator(null)
 
@@ -200,10 +201,11 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
         <li className={completed ? "border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-last" : "border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-first"}>
             {edit ? <input ref={inputEditTodoRef} onChange={e => setEditedTodo(e.currentTarget.value)} className="m-1 border rounded"/>
             : 
-            <div id={todo.todoId.toString()}>
-                <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through cursor-pointer' : 'text-lg cursor-pointer'} >
-                    {todo.task}
-                </h3>
+            <div id={todo.todoId.toString()} className='relative'>
+                    <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through cursor-pointer' : 'text-lg cursor-pointer'} >
+                        {todo.task}
+                    </h3>
+                    {todo.subTasks[0] && <img src={arrowIcon} onClick={openSubTasks} alt="Open sub tasks" className={openSubTask ? "w-7 absolute top-1 right-1 cursor-pointer transform rotate-180" : "w-7 absolute top-1 right-1 cursor-pointer"}/>}
                 <ul className="flex flex-col">
                     {openSubTask && todo.subTasks.map((sub: SubTask, index: number) => {
                         return  <SubTask sub={sub} key={index} socket={socket} todo={todo} />})}
@@ -223,7 +225,7 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
                 <div className="flex content-center justify-center">
                     <input onChange={e => setAddingCollaborator(e.currentTarget.value)} placeholder='Enter email to add..' ref={inputAddPersonRef} className="m-1 w-60 border rounded"/>
                     <div>
-                        <button id={todo.todoId.toString()} onClick={e => addCollaborator(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save sub task" className="w-7" id={todo.todoId.toString()} /></button>
+                        <button id={todo.todoId.toString()} onClick={e => addCollaborator(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={sendIcon} alt="save sub task" className="w-7" id={todo.todoId.toString()} /></button>
                         <button id={todo.todoId.toString()} onClick={() => setAddPerson(false)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
                     </div>
                 </div>}

@@ -17,7 +17,7 @@ const Login = () => {
             emailRef.current!.value,
             passwordRef.current!.value
           );
-          history.push('/');
+          history.push('/', { from: 'login' });
         } catch (error: any) {
           if (error.code === "auth/user-not-found") {
             notify('There is no user record corresponding to this identifier. Please try again');

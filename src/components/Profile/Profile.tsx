@@ -5,7 +5,11 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { useHistory } from 'react-router-dom'
 import { signOut } from '../../utils';
 
-const Profile = () => {
+interface ProfileProps {
+    setTodos: any
+}
+
+const Profile = ({ setTodos }: ProfileProps) => {
 
     const email = firebase.auth().currentUser?.email;
     const user = useContext(AuthContext);
@@ -20,6 +24,8 @@ const Profile = () => {
     })
 
     const logOut = () => {
+        localStorage.clear();
+        setTodos(null)
         signOut();
         history.push('/login');
     }

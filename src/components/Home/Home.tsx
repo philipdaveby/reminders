@@ -4,36 +4,41 @@ import TodoList from '../TodoList/TodoList'
 import { useHistory } from 'react-router-dom'
 import { Socket } from 'socket.io-client'
 import firebase from 'firebase/app';
-import LoadingPage from '../LoadingPage/LoadingPage';
+// import LoadingPage from '../LoadingPage/LoadingPage';
 import { useCookies } from 'react-cookie';
+import logo from '../../images/remindersLogo1.png'
+// import { Location } from 'history';
 
 // import logo from '../../icons/reminders-logo.png'
 
 interface HomeProps {
-    socket: Socket
+    socket: Socket,
+    todos: Array<Todo> | null,
+    setTodos: any
 }
 
-const Home = ({ socket }: HomeProps) => {
+const Home = ({ socket, todos, setTodos }: HomeProps) => {
     
-    let [todos, setTodos] = useState<Array<Todo> | null>(null);
     const [cookies, setCookie] = useCookies(['user', 'email']);
     const [loading, setLoading] = useState<boolean>(true);
+    const [addInput, setAddInput] = useState<boolean>(false)
     const history = useHistory();
     
     useEffect(() => {
+        // const state = history.location.state as { from: string }
+        // if (state.from === 'login') {
+        //     setLoading(true)
+        // }
         const unsubscribe = firebase.auth().onAuthStateChanged(user => {
             if (!user || !cookies) {
                 history.push('/login');
                 return;
             }
-            console.log(user.email)
             user ? setLoading(false) : setLoading(true)
             const localTodos = localStorage.getItem('todos')
             localTodos && setTodos(JSON.parse(localTodos))
             setCookie('user', user.uid)
             setCookie('email', user.email)
-            console.log(cookies.user)
-            console.log(cookies.email)
             getTodos();
         })
         return () => unsubscribe();
@@ -72,12 +77,14 @@ const Home = ({ socket }: HomeProps) => {
 
     return (
         <>
-            {!loading ? <main className='h-full'>
-                <h1 className="text-3xl mt-14 font-roboto">REMINDERS</h1>
-                <TodoList getTodos={getTodos} todos={todos} setTodos={setTodos} socket={socket} />
-                <AddTodo socket={socket}/>
+            {!loading || !cookies ? <main className='h-full'>
+                {/* <h1 className="text-3xl mt-14 font-roboto">REMINDERS</h1> */}
+                <img className='mt-14 mx-auto max-w-sm px-5' src={logo} alt='Reminders logo'/>
+                <TodoList getTodos={getTodos} todos={todos} setTodos={setTodos} socket={socket} setAddInput={setAddInput} />
+                <AddTodo socket={socket} addInput={addInput} setAddInput={setAddInput} todos={todos}/>
             </main>  
-            : <LoadingPage loading={loading} setLoading={setLoading}/>}
+            : <div></div>}
+            {/* : <LoadingPage loading={loading} setLoading={setLoading}/>} */}
         </>
     )
 }

@@ -1,23 +1,27 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Socket } from 'socket.io-client'
 import config from '../../utils/config';
 import closeIcon from '../../icons/close1.png'
 import addIcon from '../../icons/add1.png'
+import saveIcon from '../../icons/save1.png'
 
 interface AddTodoProps {
-    socket: Socket
+    socket: Socket,
+    addInput: boolean,
+    setAddInput: any,
+    todos: Array<Todo> | null
 }
 
-const AddTodo = ({ socket }: AddTodoProps) => {
+const AddTodo = ({ socket, addInput, setAddInput, todos }: AddTodoProps) => {
 
-    const [addInput, setAddInput] = useState(false)
     const user = useContext(AuthContext);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const task = e.currentTarget.task.value;
         if (!task) return;
+        setAddInput(false)
         const todoObject = {
             task,
             userId: user?.uid
@@ -36,7 +40,6 @@ const AddTodo = ({ socket }: AddTodoProps) => {
             
         })
         .catch(error => console.log(error.message));
-        
         socket.emit('add-todo')
     }
 
@@ -45,10 +48,10 @@ const AddTodo = ({ socket }: AddTodoProps) => {
                 <div></div>
                 <div className='flex justify-evenly items-center'>
                     <input type="text" name="task" placeholder="Enter you todo..." className={!addInput ? 'invisible rounded mr-5' : 'rounded mr-5'} />
-                    <button type="submit" className={!addInput ? 'invisible' : ''}><img className='w-14' src={addIcon} alt='Add todo'/></button>
+                    <button type="submit" className={!addInput ? 'invisible' : ''}><img className='w-11' src={saveIcon} alt='Add todo'/></button>
                 </div>
-                <img src={closeIcon} alt='Close todo input' className={!addInput ? 'w-14 cursor-pointer hidden' : 'w-14 cursor-pointer'} onClick={() => setAddInput(!addInput)} />
-                <img src={addIcon} alt='add new todo' className={addInput ? 'w-14 cursor-pointer hidden' : 'w-14 cursor-pointer'} onClick={() => setAddInput(!addInput)} />
+                <img src={closeIcon} alt='Close todo input' className={!addInput ? 'w-12 cursor-pointer hidden' : 'w-12 cursor-pointer'} onClick={() => setAddInput(!addInput)} />
+                {todos && todos[0] && <img src={addIcon} alt='add new todo' className={addInput ? 'w-14 cursor-pointer hidden' : 'w-14 cursor-pointer'} onClick={() => setAddInput(!addInput)} />}
             </form>
     )
 }

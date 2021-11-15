@@ -12,9 +12,9 @@ import { CookiesProvider } from 'react-cookie';
 
 const App = () => {
   const [socket, setSocket] = useState<Socket>(io);
+  const [todos, setTodos] = useState<Array<Todo> | null>(null);
 
   useEffect(() => {
-    console.log('socket')
     const newSocket = io(config.backend_url, {
       transports: ['websocket', 'flashsocket', 'htmlpage', 'xhr-polling', 'jsonp-polling']
     });
@@ -33,10 +33,11 @@ const App = () => {
         <AuthProvider>
           <NavBar />
           <Switch>
-            <Route exact path="/" render={() => (<Home socket={socket}/>)} />
+            <Route exact path="/" render={() => (<Home socket={socket} todos={todos} setTodos={setTodos} />)} />
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
-            <Route path="/profile" component={Profile} />
+            {/* <Route path="/profile" component={Profile} /> */}
+            <Route path="/profile" render={() => (<Profile setTodos={setTodos} /> )} />
           </Switch>
         </AuthProvider>
         </CookiesProvider>
