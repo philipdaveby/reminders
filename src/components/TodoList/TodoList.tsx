@@ -18,6 +18,7 @@ const TodoList = ({ todos, socket, setTodos, getTodos, setAddInput }: TodoListPr
     const [filtered, setFiltered] = useState<boolean>(false);
 
     useEffect(() => {
+        // setTodos(null)
         filterTodos()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filtered, getTodos])
