@@ -55,12 +55,12 @@ const AddTodo = ({ socket, addInput, setAddInput, todos, filtered, setFiltered }
     }
 
     return (
-            <form onSubmit={e => handleSubmit(e)} className='flex justify-evenly items-center fixed bottom-2 w-full p-2 z-10'>
-                <button type="submit" className={!addInput ? 'invisible' : ''}><img className='w-11' src={saveIcon} alt='Add todo'/></button>
-                <input ref={inputAddTodoRef} type="text" name="task" placeholder="Enter you todo..." className={!addInput ? 'invisible rounded mx-3' : 'rounded mx-3'} />
-                <img src={closeIcon} alt='Close todo input' className={!addInput ? 'w-12 cursor-pointer hidden' : 'w-12 cursor-pointer'} onClick={() => setAddInput(!addInput)} />
-                {todos && todos[0] && <img src={addIcon} alt='add new todo' className={addInput ? 'w-12 cursor-pointer hidden' : 'w-12 cursor-pointer'} onClick={handleAddInput} />}
-                {todos && todos[0] && <button type='button' onClick={() => setFiltered(!filtered)} className=''><img className={filtered ? 'w-14 transform rotate-90 border-2 rounded-full' : 'w-14 transform rotate-90'} src={filterIcon} alt='Filter your todos'/></button>}
+            <form onSubmit={e => handleSubmit(e)} className='flex justify-evenly items-center fixed bottom-0 w-full pb-2 bg-white'>
+                <button type="submit" title='Save todo' className={!addInput ? 'invisible' : ''}><img className='w-9' src={saveIcon} alt='Add todo'/></button>
+                <input ref={inputAddTodoRef} type="text" name="task" placeholder="Enter you todo..." className={!addInput ? 'invisible rounded mx-2 h-10' : 'rounded mx-2 h-10'} />
+                <img src={closeIcon} alt='Close todo input' title='Close' className={!addInput ? 'w-10 cursor-pointer hidden' : 'w-10 cursor-pointer'} onClick={() => setAddInput(!addInput)} />
+                {todos && todos[0] && <img src={addIcon} alt='add new todo' title='Add new todo' className={addInput ? 'w-12 cursor-pointer hidden' : 'w-12 cursor-pointer'} onClick={handleAddInput} />}
+                {todos && todos[0] && <button type='button' title='Filter completed todos' onClick={() => setFiltered(!filtered)} className=''><img className={filtered ? 'w-14 transform rotate-90 border-2 rounded-full' : 'w-14 transform rotate-90'} src={filterIcon} alt='Filter your todos'/></button>}
             </form>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import deleteIcon from '../../icons/delete1.png'
 import editIcon from '../../icons/edit1.png'
 import doneIcon from '../../icons/done2.png'
@@ -11,15 +11,23 @@ import { Socket } from 'socket.io-client';
 interface SubTaskProps {
     sub: SubTask,
     socket: Socket,
-    todo: Todo
+    todo: Todo,
+    edit: boolean,
+    completed: boolean
 }
 
-const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
+const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
 
-    const [edit, setEdit] = useState<boolean>(false);
-    const [editedSubTask, setEditedSubTask] = useState<string>('');
-    const [completed, setCompleted] = useState<boolean>(sub.isComplete);
+    const [editSub, setEditSub] = useState<boolean>(false);
+    const [editedSubTask, setEditSubedSubTask] = useState<string>('');
+    const [completedSub, setCompletedSub] = useState<boolean>(sub.isComplete);
     const inputEditSubTaskRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (completed) {
+            setCompletedSub(true)
+        }
+    }, [completed])
 
     const completeSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
             const id = todo.todoId;
@@ -33,13 +41,13 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    isComplete: !completed
+                    isComplete: !completedSub
                 })
             })
             .catch(error => console.log(error.message));
         })
         .catch(error => console.log(error.message));
-            completed ? setCompleted(false) : setCompleted(true);
+            completedSub ? setCompletedSub(false) : setCompletedSub(true);
     }
 
     const deleteSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
@@ -58,7 +66,7 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
     }
 
     const editSubTask = () => {
-        setEdit(edit => !edit)
+        setEditSub(editSub => !editSub)
         setTimeout(() => {
             inputEditSubTaskRef.current?.focus();
         });
@@ -81,36 +89,36 @@ const SubTask = ({ sub, socket, todo }: SubTaskProps) => {
                     })
                 }).then(() => {
                     socket.emit('add-todo');
-                    setEditedSubTask('');
-                    setEdit(false);
+                    setEditSubedSubTask('');
+                    setEditSub(false);
                 }).catch(error => console.log(error.message));
             }).catch(error => console.log(error.message))
     }
 
 
     return (
-        <li key={sub.subId} className={completed ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"}>
-                {edit ? 
+        <li key={sub.subId} className={completedSub ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"}>
+                {editSub ? 
                 <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
-                    <img src={saveIcon} alt="save edited sub task" className="w-7"/>
+                    <img src={saveIcon} title='Save sub task' alt="save edited sub task" className="w-7"/>
                 </button> 
                 : 
                 <button id={sub.subId.toString()} onClick={completeSubTask} className="m-1 pl-1 pr-1 cursor-pointer">
-                    <img src={doneIcon} alt="mark sub task as done" className="w-7"/>
+                    <img src={doneIcon} title='Mark sub task as done' alt="mark sub task as done" className={completed ? "w-6 filter opacity-30" : 'w-6'}/>
                 </button>}
-            {edit ? 
+            {editSub ? 
             <form className="m-1 border rounded col-start-2 col-end-4" onSubmit={e => saveEditedSubTask(e)} id={sub.subId.toString()} >
-                <input onChange={e => setEditedSubTask(e.currentTarget.value)} ref={inputEditSubTaskRef} defaultValue={sub.task} />
+                <input onChange={e => setEditSubedSubTask(e.currentTarget.value)} ref={inputEditSubTaskRef} defaultValue={sub.task} />
         </form>
             :
             <div className="flex col-start-2 col-end-4 justify-center">
-                <p className={completed ? 'text-base self-center text-lightgray line-through' : 'text-base self-center'}>{sub.task}</p>
+                <p className={completedSub || completed ? 'text-base self-center text-lightgray line-through' : 'text-base self-center'}>{sub.task}</p>
             </div>}
 
-            <div className="flex content-center">
-                <button id={sub.subId.toString()} onClick={editSubTask} className={edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="edit sub task" className="w-7"/></button> 
-                <button id={sub.subId.toString()} onClick={editSubTask} className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="edit sub task" className="w-7"/></button> 
-                <button id={sub.subId.toString()} onClick={e => deleteSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete sub task" className="w-8"/></button>
+            <div className="flex content-center justify-items-end">
+                {edit && <button id={sub.subId.toString()} title='Edit sub task' onClick={editSubTask} className={editSub ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="editSub sub task" className="w-7"/></button> }
+                <button id={sub.subId.toString()} title='Cancel' onClick={editSubTask} className={!editSub ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="editSub sub task" className="w-7"/></button> 
+                <button id={sub.subId.toString()} title='Delete sub task' onClick={e => deleteSubTask(e)} className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={deleteIcon} alt="delete sub task" className="w-8"/></button>
             </div>
         </li>
     )

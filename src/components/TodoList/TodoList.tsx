@@ -43,7 +43,7 @@ const TodoList = ({ todos, socket, setTodos, getTodos, setAddInput, filtered, se
                 </div>
             }
             {filtered && <h2 className='text-2xl mt-4 font-roboto border-b-2'>Done todos</h2>}
-            {!filtered ? <ul className="pb-16 bg-white m-auto overscroll-auto">
+            {!filtered ? <ul className="flex flex-col pb-16 bg-white m-auto overscroll-auto">
                 {todos && todos.map((todo: Todo) => {
                 return <Todo getTodos={getTodos} setTodos={setTodos} todo={todo} key={todo.todoId} socket={socket}/>
                 })}
