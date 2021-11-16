@@ -197,7 +197,7 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
     }
 
     return (
-        <li className={completed ? "relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-last" : "relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-first"}>
+        <li className={completed ? "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-last" : "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-first"}>
             {todo.collaborators[0] && <button id={todo.todoId.toString()} title='You are collaborating on this todo' className="absolute top-1 left-1 cursor-pointer"><img src={collaboratorIcon} alt="You are collaborating on this todo" className="w-7"/></button> }
             {edit ? 
             <form onSubmit={e => saveTodo(e)} id={todo.todoId.toString()}>

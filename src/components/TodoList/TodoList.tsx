@@ -35,7 +35,7 @@ const TodoList = ({ todos, socket, setTodos, getTodos, setAddInput, filtered, se
     }
 
     return (
-        <div className='max-w-2xl m-auto mt-10'>  
+        <div className='max-w-2xl m-auto mt-10 z-0'>  
             {todos && todos[0] === undefined && 
                 <div>
                     <h1 className='text-2xl mt-14 font-roboto'>Start your todo list</h1>
@@ -43,13 +43,13 @@ const TodoList = ({ todos, socket, setTodos, getTodos, setAddInput, filtered, se
                 </div>
             }
             {filtered && <h2 className='text-2xl mt-4 font-roboto border-b-2'>Done todos</h2>}
-            {!filtered ? <ul className="flex flex-col pb-16 bg-white m-auto overscroll-auto">
+            {!filtered ? <ul className="flex flex-col pb-16 bg-white m-auto z-0">
                 {todos && todos.map((todo: Todo) => {
                 return <Todo getTodos={getTodos} setTodos={setTodos} todo={todo} key={todo.todoId} socket={socket}/>
                 })}
             </ul>
             :
-            <ul className="flex flex-col pt-5 pb-16 bg-white m-auto overscroll-auto">
+            <ul className="flex flex-col pt-5 pb-16 bg-white m-auto">
                 {filteredTodos && filteredTodos.map((todo: Todo) => {
                 return <Todo getTodos={getTodos} setTodos={setTodos} todo={todo} key={todo.todoId} socket={socket}/>
                 })}

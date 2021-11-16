@@ -55,7 +55,7 @@ const AddTodo = ({ socket, addInput, setAddInput, todos, filtered, setFiltered }
     }
 
     return (
-            <form onSubmit={e => handleSubmit(e)} className='flex justify-evenly items-center fixed bottom-0 w-full pb-2 bg-white'>
+            <form onSubmit={e => handleSubmit(e)} className='z-10 flex justify-evenly items-center fixed bottom-0 w-full pb-2 bg-white'>
                 <button type="submit" title='Save todo' className={!addInput ? 'invisible' : ''}><img className='w-9' src={saveIcon} alt='Add todo'/></button>
                 <input ref={inputAddTodoRef} type="text" name="task" placeholder="Enter you todo..." className={!addInput ? 'invisible rounded mx-2 h-10' : 'rounded mx-2 h-10'} />
                 <img src={closeIcon} alt='Close todo input' title='Close' className={!addInput ? 'w-10 cursor-pointer hidden' : 'w-10 cursor-pointer'} onClick={() => setAddInput(!addInput)} />
