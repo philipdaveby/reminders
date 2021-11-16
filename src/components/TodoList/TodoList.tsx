@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import { Socket } from 'socket.io-client';
 import Todo from '../Todo/Todo'
 
 interface TodoListProps {
     todos: Array<Todo> | null,
-    setTodos: any,
+    setTodos: Dispatch<SetStateAction<Array<Todo> | null>>,
     getTodos: any,
     socket: Socket,
-    filtered: boolean,
-    setFiltered: any
+    filtered: boolean
 }
 
-const TodoList = ({ todos, socket, setTodos, getTodos, filtered, setFiltered }: TodoListProps) => {
+const TodoList = ({ todos, socket, setTodos, getTodos, filtered }: TodoListProps) => {
 
     const [filteredTodos, setFilteredTodos] = useState<Array<Todo> | null>(todos);
 

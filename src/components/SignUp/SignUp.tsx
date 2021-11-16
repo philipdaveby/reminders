@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, FormEvent } from "react";
 import { auth } from "../../firebase";
 import { ToastContainer } from 'react-toastify';
 import { notify } from '../../utils/index'
@@ -16,7 +16,7 @@ const SignUp = () => {
         return regex.test(String(email).toLowerCase());
     };
 
-    const createAccount = async (e: React.FormEvent<HTMLFormElement> | React.FormEvent<HTMLButtonElement>)  => {
+    const createAccount = async (e: FormEvent<HTMLFormElement> | FormEvent<HTMLButtonElement>)  => {
       e.preventDefault();
   
       if (!isValidEmail(emailRef.current!.value)) {

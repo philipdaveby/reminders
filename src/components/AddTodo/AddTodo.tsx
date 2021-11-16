@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef, useState, Dispatch, SetStateAction } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Socket } from 'socket.io-client'
 import config from '../../utils/config';
@@ -11,7 +11,7 @@ interface AddTodoProps {
     socket: Socket,
     todos: Array<Todo> | null,
     filtered: boolean,
-    setFiltered: any
+    setFiltered: Dispatch<SetStateAction<boolean>>
 }
 
 const AddTodo = ({ socket, todos, filtered, setFiltered }: AddTodoProps) => {

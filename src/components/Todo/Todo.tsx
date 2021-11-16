@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Dispatch, SetStateAction, FormEvent } from 'react'
 import firebase from 'firebase/app'
 import { Socket } from 'socket.io-client';
 import config from '../../utils/config';
@@ -20,18 +20,18 @@ import SubTask from '../SubTask/SubTask';
 
 interface TodoProps {
     todo: Todo,
-    setTodos: any,
+    setTodos: Dispatch<SetStateAction<Array<Todo> | null>>,
     getTodos: any,
     socket: Socket
 }
 
 const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
 
-    const [completed, setCompleted] = useState<boolean>(todo.isComplete);
+    const [completed, setCompleted] = useState(todo.isComplete);
     const [editedTodo, setEditedTodo] = useState<string | null>(null)
-    const [openSubTask, setOpenSubTask] = useState<boolean>(false);
-    const [addSubTaskInput, setAddSubTaskInput] = useState<boolean>(false);
-    const [newSubTask, setNewSubTask] = useState<string>('');
+    const [openSubTask, setOpenSubTask] = useState(false);
+    const [addSubTaskInput, setAddSubTaskInput] = useState(false);
+    const [newSubTask, setNewSubTask] = useState('');
     const [edit, setEdit] = useState(false)
     const [addPerson, setAddPerson] = useState(false)
     const [addingCollaborator, setAddingCollaborator] = useState<string | null>(null)
@@ -59,7 +59,7 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
         completed ? setCompleted(false) : setCompleted(true);
     }
 
-    const deleteTodo = async (e: React.FormEvent<HTMLButtonElement>) => {
+    const deleteTodo = async (e: FormEvent<HTMLButtonElement>) => {
         const id = e.currentTarget.id;
         await firebase.auth().currentUser?.getIdToken(true)
             .then(async idToken => {
@@ -73,7 +73,7 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
             }).catch(error => console.log(error.message))
     }
     
-    const saveTodo = async (e:  React.FormEvent<HTMLFormElement> | React.FormEvent<HTMLButtonElement>) => {
+    const saveTodo = async (e:  FormEvent<HTMLFormElement> | FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (!editedTodo) {
             setEdit(edit => !edit);
@@ -97,14 +97,14 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
             .catch(error => console.log(error.message))
     }
     
-    const editTodo = async (e: React.FormEvent<HTMLButtonElement>) => {
+    const editTodo = async (e: FormEvent<HTMLButtonElement>) => {
         setEdit(edit => !edit);
         setTimeout(() => {
             inputEditTodoRef.current?.focus();
         });
     }
 
-    const sendNewSubTask = async (e: React.FormEvent<HTMLFormElement>) => {
+    const sendNewSubTask = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const id = e.currentTarget.id;
 
@@ -142,14 +142,14 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
         setOpenSubTask(!openSubTask);
     }
 
-    const addPersonInput = async (e: React.FormEvent<HTMLButtonElement>) => {
+    const addPersonInput = async (e: FormEvent<HTMLButtonElement>) => {
         setAddPerson(() => !addPerson);
         setTimeout(() => {
             inputAddPersonRef.current?.focus();
         });
     }
     
-    const addCollaborator = (e: React.FormEvent<HTMLFormElement>) => {
+    const addCollaborator = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const id = e.currentTarget.id;
         if (!addingCollaborator) return;
@@ -190,9 +190,6 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
             });
         setAddingCollaborator(null)
 
-
-        // Hur ska man se vilka som har tillgång till listan?
-        // - Lägg till Personicon om den är delad
     }
 
     return (

@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import AddTodo from '../AddTodo/AddTodo'
 import TodoList from '../TodoList/TodoList'
 import { useHistory } from 'react-router-dom'
 import { Socket } from 'socket.io-client'
 import firebase from 'firebase/app';
-// import LoadingPage from '../LoadingPage/LoadingPage';
 import { useCookies } from 'react-cookie';
 import logo from '../../images/remindersLogo1.png'
-// import { Location } from 'history';
-
-// import logo from '../../icons/reminders-logo.png'
 
 interface HomeProps {
     socket: Socket,
     todos: Array<Todo> | null,
-    setTodos: any
+    setTodos: Dispatch<SetStateAction<Array<Todo> | null>>
 }
 
 const Home = ({ socket, todos, setTodos }: HomeProps) => {
@@ -66,7 +62,6 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
                         localStorage.setItem('todos', JSON.stringify(res));
                         setTodos(res)
                     }
-                    // setLoading(false);
                 })
                 .catch((error) => {
                     console.log('We had an error loading data');
@@ -77,13 +72,11 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
     return (
         <>
             {!loading || !cookies ? <main className='h-full'>
-                {/* <h1 className="text-3xl mt-14 font-roboto">REMINDERS</h1> */}
                 <img className='mt-16 mx-auto w-4/5 max-w-sm' src={logo} alt='Reminders logo'/>
-                <TodoList getTodos={getTodos} todos={todos} setTodos={setTodos} socket={socket} filtered={filtered} setFiltered={setFiltered} />
+                <TodoList getTodos={getTodos} todos={todos} setTodos={setTodos} socket={socket} filtered={filtered} />
                 <AddTodo socket={socket} todos={todos} filtered={filtered} setFiltered={setFiltered} />
             </main>  
             : <div></div>}
-            {/* : <LoadingPage loading={loading} setLoading={setLoading}/>} */}
         </>
     )
 }

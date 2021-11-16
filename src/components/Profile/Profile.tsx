@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, Dispatch, SetStateAction } from 'react'
 import firebase from 'firebase/app'
 import Login from '../Login/Login'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import { signOut } from '../../utils';
 
 interface ProfileProps {
-    setTodos: any
+    setTodos: Dispatch<SetStateAction<Array<Todo> | null>>
 }
 
 const Profile = ({ setTodos }: ProfileProps) => {

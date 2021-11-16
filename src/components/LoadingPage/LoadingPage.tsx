@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, Dispatch, SetStateAction } from 'react'
 import { AuthContext } from '../../contexts/AuthContext';
 import Login from '../Login/Login'
 
 interface LoadingProps {
     loading: boolean,
-    setLoading: any
+    setLoading: Dispatch<SetStateAction<boolean>>
 }
 
 const LoadingPage = ({loading, setLoading}: LoadingProps) => {
