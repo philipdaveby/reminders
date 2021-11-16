@@ -8,12 +8,11 @@ interface TodoListProps {
     setTodos: any,
     getTodos: any,
     socket: Socket,
-    setAddInput: any,
     filtered: boolean,
     setFiltered: any
 }
 
-const TodoList = ({ todos, socket, setTodos, getTodos, setAddInput, filtered, setFiltered }: TodoListProps) => {
+const TodoList = ({ todos, socket, setTodos, getTodos, filtered, setFiltered }: TodoListProps) => {
 
     const [filteredTodos, setFilteredTodos] = useState<Array<Todo> | null>(todos);
 
@@ -36,12 +35,6 @@ const TodoList = ({ todos, socket, setTodos, getTodos, setAddInput, filtered, se
 
     return (
         <div className='max-w-2xl m-auto mt-10 z-0'>  
-            {todos && todos[0] === undefined && 
-                <div>
-                    <h1 className='text-2xl mt-14 font-roboto'>Start your todo list</h1>
-                    <button onClick={() => setAddInput(true)}><img className='w-14' src={addIcon} alt='Add new todo'/></button>
-                </div>
-            }
             {filtered && <h2 className='text-2xl mt-4 font-roboto border-b-2'>Done todos</h2>}
             {!filtered ? <ul className="flex flex-col pb-16 bg-white m-auto z-0">
                 {todos && todos.map((todo: Todo) => {

@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Socket } from 'socket.io-client'
 import config from '../../utils/config';
@@ -9,15 +9,14 @@ import filterIcon from '../../icons/filter.png'
 
 interface AddTodoProps {
     socket: Socket,
-    addInput: boolean,
-    setAddInput: any,
     todos: Array<Todo> | null,
     filtered: boolean,
     setFiltered: any
 }
 
-const AddTodo = ({ socket, addInput, setAddInput, todos, filtered, setFiltered }: AddTodoProps) => {
+const AddTodo = ({ socket, todos, filtered, setFiltered }: AddTodoProps) => {
 
+    const [addInput, setAddInput] = useState<boolean>(false)
     const user = useContext(AuthContext);
     const inputAddTodoRef = useRef<HTMLInputElement>(null);
 
@@ -56,6 +55,12 @@ const AddTodo = ({ socket, addInput, setAddInput, todos, filtered, setFiltered }
 
     return (
             <form onSubmit={e => handleSubmit(e)} className='z-10 flex justify-evenly items-center fixed bottom-0 w-full pb-2 bg-white'>
+                {todos && todos[0] === undefined && 
+                <div className='fixed top-40'>
+                    <h1 className='text-2xl mt-14 font-roboto'>Start your todo list</h1>
+                    <button onClick={handleAddInput}><img className='w-14' src={addIcon} alt='Add new todo'/></button>
+                </div>
+            }
                 <button type="submit" title='Save todo' className={!addInput ? 'invisible' : ''}><img className='w-9' src={saveIcon} alt='Add todo'/></button>
                 <input ref={inputAddTodoRef} type="text" name="task" placeholder="Enter you todo..." className={!addInput ? 'invisible rounded mx-2 h-10' : 'rounded mx-2 h-10'} />
                 <img src={closeIcon} alt='Close todo input' title='Close' className={!addInput ? 'w-10 cursor-pointer hidden' : 'w-10 cursor-pointer'} onClick={() => setAddInput(!addInput)} />
