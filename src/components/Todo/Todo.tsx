@@ -164,7 +164,6 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
                 notify("There is no existing account with that e-mail address");
                 return;
             }
-            console.log(id)
             firebase.auth().currentUser?.getIdToken(true)
                 .then(async idToken => {
                         await fetch(`${config.backend_url}/api/todos/${id}`, {
@@ -197,6 +196,7 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
     }
 
     return (
+        <>
         <li className={completed ? "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-last" : "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-first"}>
             {todo.collaborators[0] && <button id={todo.todoId.toString()} title='You are collaborating on this todo' className="absolute top-1 left-1 cursor-pointer"><img src={collaboratorIcon} alt="You are collaborating on this todo" className="w-7"/></button> }
             {edit ? 
@@ -238,8 +238,9 @@ const Todo = ({ todo, socket, setTodos, getTodos }: TodoProps) => {
                 <button id={todo.todoId.toString()} onClick={e => editTodo(e)} title='Cancel' className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="edit todo" className="w-7"/></button> 
                 <button id={todo.todoId.toString()} onClick={e => deleteTodo(e)} title='Delete todo' className="pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete todo" className="w-8"/></button> 
             </div>
-            <ToastContainer />
         </li>
+            <ToastContainer />
+        </>
     )
 }
 

@@ -57,7 +57,7 @@ const AddTodo = ({ socket, todos, filtered, setFiltered }: AddTodoProps) => {
             <form onSubmit={e => handleSubmit(e)} className='z-10 flex justify-evenly items-center fixed bottom-0 w-full pb-2 bg-white'>
                 {todos && todos[0] === undefined && 
                 <div className='fixed top-40'>
-                    <h1 className='text-2xl mt-14 font-roboto'>Start your todo list</h1>
+                    <h1 className='text-2xl mt-14'>Create your first Todo list</h1>
                     <button onClick={handleAddInput}><img className='w-14' src={addIcon} alt='Add new todo'/></button>
                 </div>
             }

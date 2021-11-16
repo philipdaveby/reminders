@@ -25,10 +25,6 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
     const history = useHistory();
     
     useEffect(() => {
-        // const state = history.location.state as { from: string }
-        // if (state.from === 'login') {
-        //     setLoading(true)
-        // }
         const unsubscribe = firebase.auth().onAuthStateChanged(user => {
             if (!user || !cookies) {
                 history.push('/login');
@@ -47,6 +43,9 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
     
     useEffect(() => {
         socket.on('update-todos', () => getTodos());
+        return () => {
+            socket.off('update-todos');
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [socket])
 

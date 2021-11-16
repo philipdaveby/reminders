@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Socket } from 'socket.io-client';
 import Todo from '../Todo/Todo'
-import addIcon from '../../icons/add1.png'
 
 interface TodoListProps {
     todos: Array<Todo> | null,
