@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom'
 import { Socket } from 'socket.io-client'
 import firebase from 'firebase/app';
 import { useCookies } from 'react-cookie';
-import logo from '../../images/remindersLogo1.png'
 
 interface HomeProps {
     socket: Socket,
@@ -72,8 +71,7 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
     return (
         <>
             {!loading || !cookies ? <main className='h-full'>
-                <img className='mt-16 mx-auto w-4/5 max-w-sm' src={logo} alt='Reminders logo'/>
-                <TodoList getTodos={getTodos} todos={todos} setTodos={setTodos} socket={socket} filtered={filtered} />
+                <TodoList getTodos={getTodos} todos={todos} socket={socket} filtered={filtered} />
                 <AddTodo socket={socket} todos={todos} filtered={filtered} setFiltered={setFiltered} />
             </main>  
             : <div></div>}

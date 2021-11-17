@@ -37,7 +37,7 @@ const App = () => {
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
             {/* <Route path="/profile" component={Profile} /> */}
-            <Route path="/profile" render={() => (<Profile setTodos={setTodos} /> )} />
+            <Route path="/profile" render={() => (<Profile setTodos={setTodos} todos={todos} /> )} />
           </Switch>
         </AuthProvider>
         </CookiesProvider>

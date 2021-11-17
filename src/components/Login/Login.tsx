@@ -36,10 +36,11 @@ const Login = () => {
   return (
     <div className="mt-16">
         <h2 className="h2">Sign in</h2>
-        <form className="flex flex-col max-w-3/4 m-auto justify-items-center justify-center">
+        <form className="flex flex-col max-w-3/4 md:max-w-xxs m-auto justify-items-center justify-center">
             <input className="mb-3" type="email" required placeholder="email" ref={emailRef} />
-            <input type="password" placeholder="password" ref={passwordRef} className="mb-5"/>
+            <input type="password" placeholder="password" ref={passwordRef} className="mb-4"/>
             <button type="submit" onClick={e => signIn(e)} className="button">Sign In</button>
+            <p className='mt-8'>Not registered yet?</p>
             <button className="button" onClick={() => history.push('/signup')}>Create a new account</button>
             <ToastContainer />
         </form>

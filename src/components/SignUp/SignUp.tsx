@@ -49,17 +49,16 @@ const SignUp = () => {
     };
 
   return (
-    <>
-        <form className="mt-20 flex flex-col m-auto" onSubmit={e => createAccount(e)}>
-          <h2 className="h2">Create your new account</h2>
-          <input className="mt-5" type="email" placeholder="email" ref={emailRef} />
-          <input className="mt-3" type="password" placeholder="password" ref={passwordRef}/>
-          <input className="mt-3 mb-10" type="password" placeholder="Confirm password" ref={confirmPasswordRef}/>
-          <button className="button" type="submit" onClick={e => createAccount(e)}>Sign Up</button>
-          <ToastContainer />
-        </form>
+      <form className="mt-2 flex flex-col m-auto" onSubmit={e => createAccount(e)}>
+        <h2 className="h2">Create your new account</h2>
+        <input className="mt-3" type="email" placeholder="email" ref={emailRef} />
+        <input className="mt-3" type="password" placeholder="password" ref={passwordRef}/>
+        <input className="mt-3 mb-4" type="password" placeholder="confirm password" ref={confirmPasswordRef}/>
+        <button className="button" type="submit" onClick={e => createAccount(e)}>Sign Up</button>
+        <ToastContainer />
+        <p className='mt-6 md:mt-12'>Do you already have an account?</p>
         <button className="button" type="button" onClick={() => history.push('/login')}>Log In</button>
-    </>
+      </form>
   );
 }
 
