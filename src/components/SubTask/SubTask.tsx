@@ -24,7 +24,6 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
     const inputEditSubTaskRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        console.log('completed called')
         completed ? setCompletedSub(true) : setCompletedSub(false);
     }, [completed])
 
@@ -97,18 +96,18 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
 
     return (
         <li key={sub.subId} className={completedSub ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"}>
-                {editSub ? 
-                <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
-                    <img src={saveIcon} title='Save sub task' alt="save edited sub task" className="w-7"/>
-                </button> 
-                : 
-                <button id={sub.subId.toString()} onClick={completeSubTask} className="m-1 pl-1 pr-1 cursor-pointer">
-                    <img src={doneIcon} title='Mark sub task as done' alt="mark sub task as done" className={completed ? "w-6 filter opacity-30" : 'w-6'}/>
-                </button>}
+            {editSub ? 
+            <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
+                <img src={saveIcon} title='Save sub task' alt="save edited sub task" className="w-7"/>
+            </button> 
+            : 
+            <button id={sub.subId.toString()} onClick={completeSubTask} className="m-1 pl-1 pr-1 cursor-pointer">
+                <img src={doneIcon} title='Mark sub task as done' alt="mark sub task as done" className={completed ? "w-6 filter opacity-30" : 'w-6'}/>
+            </button>}
             {editSub ? 
             <form className="m-1 border rounded col-start-2 col-end-4" onSubmit={e => saveEditedSubTask(e)} id={sub.subId.toString()} >
                 <input onChange={e => setEditSubedSubTask(e.currentTarget.value)} ref={inputEditSubTaskRef} defaultValue={sub.task} />
-        </form>
+            </form>
             :
             <div className="flex col-start-2 col-end-4 justify-center">
                 <p className={completedSub || completed ? 'text-base self-center text-lightgray line-through' : 'text-base self-center'}>{sub.task}</p>

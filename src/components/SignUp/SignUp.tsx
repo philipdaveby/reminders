@@ -40,7 +40,9 @@ const SignUp = () => {
       } catch (error: any) {
         if (error.code === "auth/email-already-in-use") {
           notify('The email address is already in use by another account');
-          return
+        }
+        if (error.code === "auth/weak-password") {
+          notify('Your password needs to be at least 6 characters');
         }
         console.error(error);
       }
@@ -50,11 +52,11 @@ const SignUp = () => {
     <>
         <form className="mt-20 flex flex-col m-auto" onSubmit={e => createAccount(e)}>
           <h2 className="h2">Create your new account</h2>
-            <input className="mt-5" type="email" placeholder="email" ref={emailRef} />
-            <input className="mt-3" type="password" placeholder="password" ref={passwordRef}/>
-            <input className="mt-3 mb-10" type="password" placeholder="Confirm password" ref={confirmPasswordRef}/>
-            <button className="button" type="submit" onClick={e => createAccount(e)}>Sign Up</button>
-        <ToastContainer />
+          <input className="mt-5" type="email" placeholder="email" ref={emailRef} />
+          <input className="mt-3" type="password" placeholder="password" ref={passwordRef}/>
+          <input className="mt-3 mb-10" type="password" placeholder="Confirm password" ref={confirmPasswordRef}/>
+          <button className="button" type="submit" onClick={e => createAccount(e)}>Sign Up</button>
+          <ToastContainer />
         </form>
         <button className="button" type="button" onClick={() => history.push('/login')}>Log In</button>
     </>

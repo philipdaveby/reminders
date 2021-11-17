@@ -16,7 +16,6 @@ const TodoList = ({ todos, socket, setTodos, getTodos, filtered }: TodoListProps
 
 
     useEffect(() => {
-        // setTodos(null)
         filterTodos()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filtered, getTodos])
@@ -34,15 +33,15 @@ const TodoList = ({ todos, socket, setTodos, getTodos, filtered }: TodoListProps
     return (
         <div className='max-w-2xl m-auto mt-10 z-0'>  
             {filtered && <h2 className='text-2xl mt-4 font-roboto border-b-2'>Done todos</h2>}
-            {!filtered ? <ul className="flex flex-col pb-16 bg-white m-auto z-0">
-                {todos && todos.map((todo: Todo) => {
-                return <Todo getTodos={getTodos} setTodos={setTodos} todo={todo} key={todo.todoId} socket={socket}/>
-                })}
-            </ul>
-            :
-            <ul className="flex flex-col pt-5 pb-16 bg-white m-auto">
+            {filtered ? <ul className="flex flex-col pt-5 pb-16 bg-white m-auto">
                 {filteredTodos && filteredTodos.map((todo: Todo) => {
-                return <Todo getTodos={getTodos} setTodos={setTodos} todo={todo} key={todo.todoId} socket={socket}/>
+                return <Todo getTodos={getTodos} todo={todo} key={todo.todoId} socket={socket}/>
+                })}
+            </ul> 
+            :
+            <ul className="flex flex-col pb-16 bg-white m-auto z-0">
+                {todos && todos.map((todo: Todo) => {
+                return <Todo getTodos={getTodos} todo={todo} key={todo.todoId} socket={socket}/>
                 })}
             </ul>}
         </div>
