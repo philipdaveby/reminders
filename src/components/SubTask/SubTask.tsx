@@ -24,9 +24,8 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
     const inputEditSubTaskRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (completed) {
-            setCompletedSub(true)
-        }
+        console.log('completed called')
+        completed ? setCompletedSub(true) : setCompletedSub(false);
     }, [completed])
 
     const completeSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
