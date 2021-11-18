@@ -154,7 +154,7 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
     return (
         <>
             <li className={completed ? "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-last" : "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-first"}>
-                {todo.collaborators[0] && <button id={todo.todoId.toString()} title='You are collaborating on this to-do' className="absolute top-1 left-1 cursor-pointer"><img src={collaboratorIcon} alt="You are collaborating on this to-do" className="w-7"/></button> }
+                {todo.collaborators[0] && <img src={collaboratorIcon} alt="You are collaborating on this to-do" title='You are collaborating on this to-do' className="absolute top-1 left-1 cursor-pointer w-7"/> }
                 {edit ? 
                 <form onSubmit={e => saveTodo(e)} id={todo.todoId.toString()}>
                     <input ref={inputEditTodoRef} onChange={e => setEditedTodo(e.currentTarget.value)} defaultValue={todo.task} className="m-1 border rounded"/>

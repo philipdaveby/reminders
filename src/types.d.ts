@@ -5,17 +5,15 @@ type Todo = {
     todoId: string,
     _id: string,
     userId: string,
-    collaborators: [String],
+    collaborators: string[],
     locked: boolean,
-    subTasks: [SubTask]
+    subTasks: SubTask[]
 }
 
 type SubTask = {
     task: string,
     isComplete: boolean,
     subId: string,
-    _id: string,
-    userId: string,
     locked: boolean
 }
 
