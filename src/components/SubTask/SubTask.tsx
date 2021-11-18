@@ -95,7 +95,7 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
 
 
     return (
-        <li key={sub.subId} className={completedSub ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"}>
+        <li key={sub.subId} className={completedSub ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"} >
             {editSub ? 
             <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
                 <img src={saveIcon} title='Save sub task' alt="save edited sub task" className="w-7"/>
@@ -113,8 +113,8 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
                 <p className={completedSub || completed ? 'text-base self-center text-lightgray line-through' : 'text-base self-center'}>{sub.task}</p>
             </div>}
 
-            <div className="flex content-center justify-items-end">
-                {edit && <button id={sub.subId.toString()} title='Edit sub task' onClick={editSubTask} className={editSub ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="editSub sub task" className="w-7"/></button> }
+            <div className="flex content-center justify-items-end" >
+                {edit && <button data-testid="edit-menu" id={sub.subId.toString()} title='Edit sub task' onClick={editSubTask} className={editSub ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="editSub sub task" className="w-7"/></button> }
                 <button id={sub.subId.toString()} title='Cancel' onClick={editSubTask} className={!editSub ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="editSub sub task" className="w-7"/></button> 
                 <button id={sub.subId.toString()} title='Delete sub task' onClick={e => deleteSubTask(e)} className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={deleteIcon} alt="delete sub task" className="w-8"/></button>
             </div>
