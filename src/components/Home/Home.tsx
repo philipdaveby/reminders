@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { Socket } from 'socket.io-client'
 import firebase from 'firebase/app';
 import { useCookies } from 'react-cookie';
+import config from '../../utils/config'
 
 interface HomeProps {
     socket: Socket,
@@ -49,7 +50,7 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
         firebase.auth().onAuthStateChanged(user => {
             user?.getIdToken(true)
                 .then(async idToken => {
-                    const response = await fetch('http://localhost:8000/api/todos', {
+                    const response = await fetch(`${config.backend_url}/api/todos`, {
                         method: 'GET',
                         headers: {
                             'Authorization': idToken
