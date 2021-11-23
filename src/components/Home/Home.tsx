@@ -4,7 +4,6 @@ import TodoList from '../TodoList/TodoList'
 import { useHistory } from 'react-router-dom'
 import { Socket } from 'socket.io-client'
 import firebase from 'firebase/app';
-import { useCookies } from 'react-cookie';
 import config from '../../utils/config'
 
 interface HomeProps {
@@ -14,23 +13,20 @@ interface HomeProps {
 }
 
 const Home = ({ socket, todos, setTodos }: HomeProps) => {
-    
-    const [cookies, setCookie] = useCookies(['user', 'email']);
+
     const [loading, setLoading] = useState<boolean>(true);
     const [filtered, setFiltered] = useState<boolean>(false);
     const history = useHistory();
     
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-            if (!user || !cookies) {
+            if (!user) {
                 history.push('/login');
                 return;
             }
             user ? setLoading(false) : setLoading(true)
             const localTodos = localStorage.getItem('todos')
             localTodos && setTodos(JSON.parse(localTodos))
-            setCookie('user', user.uid)
-            setCookie('email', user.email)
             getTodos();
         })
         return () => unsubscribe();
@@ -43,19 +39,18 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
             socket.off('update-todos');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [socket])
-
+    }, [socket])
+    
     
     const getTodos = async () => {
         firebase.auth().onAuthStateChanged(user => {
             user?.getIdToken(true)
-                .then(async idToken => {
+            .then(async idToken => {
                     const response = await fetch(`${config.backend_url}/api/todos`, {
                         method: 'GET',
                         headers: {
                             'Authorization': idToken
-                        },
-                        credentials: 'include'
+                        }
                     });
                     const res = await response.json();
                     if (res !== todos) {
@@ -71,7 +66,7 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
 
     return (
         <>
-            {!loading || !cookies ? <main className='h-full'>
+            {!loading ? <main className='h-full'>
                 <TodoList getTodos={getTodos} todos={todos} socket={socket} filtered={filtered} />
                 <AddTodo socket={socket} todos={todos} filtered={filtered} setFiltered={setFiltered} />
             </main>  

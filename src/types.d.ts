@@ -5,7 +5,7 @@ type Todo = {
     todoId: string,
     _id: string,
     userId: string,
-    collaborators: string[],
+    collaborators: Collaborators[],
     locked: boolean,
     subTasks: SubTask[]
 }
@@ -15,6 +15,11 @@ type SubTask = {
     isComplete: boolean,
     subId: string,
     locked: boolean
+}
+
+type Collaborators = {
+    userId: string,
+    email: string
 }
 
 type socketProps = {

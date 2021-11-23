@@ -8,7 +8,6 @@ import { AuthProvider } from './provider/AuthProvider';
 import Profile from './components/Profile/Profile';
 import { Socket, io } from 'socket.io-client';
 import config from './utils/config';
-import { CookiesProvider } from 'react-cookie';
 
 const App = () => {
   const [socket, setSocket] = useState<Socket>(io);
@@ -29,18 +28,15 @@ const App = () => {
 
   return (
     <div id="app" className="flex w-full flex-col h-screen">
-      <CookiesProvider>
         <AuthProvider>
           <NavBar />
           <Switch>
             <Route exact path="/" render={() => (<Home socket={socket} todos={todos} setTodos={setTodos} />)} />
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
-            {/* <Route path="/profile" component={Profile} /> */}
             <Route path="/profile" render={() => (<Profile setTodos={setTodos} todos={todos} /> )} />
           </Switch>
         </AuthProvider>
-        </CookiesProvider>
     </div>
   );
 }

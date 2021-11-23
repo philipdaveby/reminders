@@ -112,7 +112,7 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
         e.preventDefault();
         const id = e.currentTarget.id;
         if (!addingCollaborator) return;
-        if (todo.collaborators.includes(addingCollaborator)) {
+        if (todo.collaborators.some(user => user.email === addingCollaborator)) {
             notify('The collaborator already has access.');
             return;
         }
