@@ -6,4 +6,4 @@ export const signOut = async () => {
     await auth.signOut();
   };
 
-export const notify = (text: string) => toast(text);
+export const notify = (text: string, toastId: string) => toast(text, { toastId });

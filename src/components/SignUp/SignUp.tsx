@@ -1,6 +1,5 @@
 import React, { useRef, FormEvent } from "react";
 import { auth } from "../../firebase";
-import { ToastContainer } from 'react-toastify';
 import { notify } from '../../utils/index'
 import { useHistory } from "react-router";
 
@@ -20,12 +19,12 @@ const SignUp = () => {
       e.preventDefault();
   
       if (!isValidEmail(emailRef.current!.value)) {
-        notify('Your email does not have a correct format, please try again.');
+        notify('Your email does not have a correct format, please try again.', 'incorrect-format');
         return;
       }
       
       if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
-        notify('Your passwords does not match, please try again.');
+        notify('Your passwords does not match, please try again.', 'not-matching-passwords');
         passwordRef.current!.value = ''
         confirmPasswordRef.current!.value = ''
         return;
@@ -35,14 +34,14 @@ const SignUp = () => {
           emailRef.current!.value,
           passwordRef.current!.value
           );
-          notify('You have completed your signup!');
+          notify('You have completed your signup!', 'completed-signup');
           history.push('/')
       } catch (error: any) {
         if (error.code === "auth/email-already-in-use") {
-          notify('The email address is already in use by another account');
+          notify('The email address is already in use by another account', 'already-in-use');
         }
         if (error.code === "auth/weak-password") {
-          notify('Your password needs to be at least 6 characters');
+          notify('Your password needs to be at least 6 characters', '6-characters');
         }
         console.error(error);
       }
@@ -55,7 +54,6 @@ const SignUp = () => {
         <input className="mt-3" type="password" placeholder="password" ref={passwordRef}/>
         <input className="mt-3 mb-4" type="password" placeholder="confirm password" ref={confirmPasswordRef}/>
         <button className="button" type="submit" onClick={e => createAccount(e)}>Sign Up</button>
-        <ToastContainer />
         <p className='mt-6 md:mt-12'>Do you already have an account?</p>
         <button className="button" type="button" onClick={() => history.push('/login')}>Log In</button>
       </form>

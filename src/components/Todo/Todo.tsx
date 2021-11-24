@@ -2,7 +2,6 @@ import React, { useState, FormEvent } from 'react'
 import firebase from 'firebase/app'
 import { Socket } from 'socket.io-client';
 import config from '../../utils/config';
-import { ToastContainer } from 'react-toastify';
 import { notify } from '../../utils/index'
 
 import SubTask from '../SubTask/SubTask';
@@ -111,14 +110,14 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
         const id = e.currentTarget.id;
         if (!addingCollaborator) return;
         if (todo.collaborators.some(user => user.email === addingCollaborator)) {
-            notify('The collaborator already has access.');
+            notify('The collaborator already has access.', 'already-access');
             return;
         }
         
         firebase.auth().fetchSignInMethodsForEmail(addingCollaborator)
         .then(providers => {
             if (providers.length === 0) {
-                notify("There is no existing account with that e-mail address");
+                notify("There is no existing account with that e-mail address", 'no-account');
                 return;
             }
             firebase.auth().currentUser?.getIdToken(true)
@@ -137,12 +136,12 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
                             }).then(() => {
                                 socket.emit('add-todo')
                                 setAddPerson(false);
-                                notify(`You have added ${addingCollaborator} as a collaborator to your todo!`);
+                                notify(`You have added ${addingCollaborator} as a collaborator to your todo!`, 'added-collaborator');
                             }).catch(error => console.log(error.message));
             })
             .catch(error => {
                 if (error.code === 'auth/invalid-email') {
-                    notify('Please enter a valid e-mail address');
+                    notify('Please enter a valid e-mail address', 'enter-valid-email');
                 }
             });
         setAddingCollaborator(null)
@@ -184,7 +183,6 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
                 </form>}
                 <TodoMenu edit={edit} todo={todo} completed={todo.isComplete} saveTodo={saveTodo} addSubTask={addSubTask} addPersonInput={addPersonInput} editTodo={editTodo} socket={socket} />
             </li>
-            <ToastContainer />
         </>
     )
 }

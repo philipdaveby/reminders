@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { auth } from "../../firebase";
 import { useHistory } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify';
 import { notify } from '../../utils/index'
 
 const Login = () => {
@@ -21,13 +20,13 @@ const Login = () => {
           history.push('/', { from: 'login' });
         } catch (error: any) {
           if (error.code === "auth/user-not-found") {
-            notify('There is no user record corresponding to this identifier. Please try again');
+            notify('There is no user record corresponding to this identifier. Please try again', 'no-user');
           }
           if (error.code === "auth/wrong-password") {
-            notify('The password is invalid. Please try again');
+            notify('The password is invalid. Please try again', 'invalid-passowrd');
           }
           if (error.code === "auth/invalid-email") {
-            notify('Please provide a valid email');
+            notify('Please provide a valid email', 'invalid-email');
           }
           console.error(error);
         }
@@ -42,7 +41,6 @@ const Login = () => {
             <button type="submit" onClick={e => signIn(e)} className="button">Sign In</button>
             <p className='mt-8'>Not registered yet?</p>
             <button className="button" onClick={() => history.push('/signup')}>Create a new account</button>
-            <ToastContainer />
         </form>
     </div>
   );
