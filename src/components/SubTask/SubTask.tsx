@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import deleteIcon from '../../icons/delete1.png'
 import editIcon from '../../icons/edit1.png'
 import doneIcon from '../../icons/done2.png'
