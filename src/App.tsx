@@ -7,13 +7,15 @@ import Login from './components/Login/Login';
 import { AuthProvider } from './provider/AuthProvider';
 import Profile from './components/Profile/Profile';
 import { Socket, io } from 'socket.io-client';
+import config from './utils/config';
 
 const App = () => {
   const [socket, setSocket] = useState<Socket>(io);
   const [todos, setTodos] = useState<Array<Todo> | null>(null);
 
   useEffect(() => {
-    const newSocket = io('https://pure-shelf-04149.herokuapp.com', {
+    // const newSocket = io('https://pure-shelf-04149.herokuapp.com', {
+    const newSocket = io(config.backend_url, {
       reconnectionDelay: 1000,
       reconnection: true,
       transports: ['websocket'],

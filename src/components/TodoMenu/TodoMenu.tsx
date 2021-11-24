@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, FormEvent } from 'react'
+import React, { FormEvent } from 'react'
 import firebase from 'firebase/app'
 import config from '../../utils/config';
 import { Socket } from 'socket.io-client';
@@ -14,9 +14,7 @@ import closeIcon from '../../icons/close1.png'
 interface TodoMenuProps {
     todo: Todo,
     edit: boolean,
-    getTodos: any,
     completed: boolean,
-    setCompleted: Dispatch<SetStateAction<boolean>>,
     saveTodo: any,
     addSubTask: any,
     addPersonInput: any,
@@ -24,7 +22,7 @@ interface TodoMenuProps {
     socket: Socket
 }
 
-const TodoMenu = ({ todo, edit, getTodos, completed, setCompleted, saveTodo, addSubTask, addPersonInput, editTodo, socket }: TodoMenuProps) => {
+const TodoMenu = ({ todo, edit, completed, saveTodo, addSubTask, addPersonInput, editTodo, socket }: TodoMenuProps) => {
 
     const completeTodo = async (e: React.FormEvent<HTMLButtonElement>) => {
         const id = e.currentTarget.id;
@@ -40,10 +38,9 @@ const TodoMenu = ({ todo, edit, getTodos, completed, setCompleted, saveTodo, add
                     isComplete: !completed
                 })
             })
-        getTodos();
-    })
+        }).then(() => socket.emit('add-todo'))
     .catch(error => console.log(error.message));
-        completed ? setCompleted(false) : setCompleted(true);
+        // completed ? setCompleted(false) : setCompleted(true);
     }
 
     const deleteTodo = async (e: FormEvent<HTMLButtonElement>) => {

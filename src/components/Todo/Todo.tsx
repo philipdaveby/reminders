@@ -13,7 +13,6 @@ import arrowIcon from '../../icons/arrow.png'
 import sendIcon from '../../icons/send.png'
 import collaboratorIcon from '../../icons/person.png'
 
-
 interface TodoProps {
     todo: Todo,
     getTodos: any,
@@ -22,7 +21,6 @@ interface TodoProps {
 
 const Todo = ({ todo, socket, getTodos }: TodoProps) => {
 
-    const [completed, setCompleted] = useState(todo.isComplete);
     const [editedTodo, setEditedTodo] = useState<string | null>(null)
     const [openSubTask, setOpenSubTask] = useState(false);
     const [addSubTaskInput, setAddSubTaskInput] = useState(false);
@@ -33,7 +31,7 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
     const inputSubTaskRef = React.useRef<HTMLInputElement>(null);
     const inputEditTodoRef = React.useRef<HTMLInputElement>(null);
     const inputAddPersonRef = React.useRef<HTMLInputElement>(null);
-    
+
     const saveTodo = async (e:  FormEvent<HTMLFormElement> | FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (!editedTodo) {
@@ -153,7 +151,7 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
 
     return (
         <>
-            <li className={completed ? "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-last" : "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-first"}>
+            <li className={todo.isComplete ? "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-last" : "z-0 relative border border-blue-900 rounded-lg m-2 mx-4 shadow-sm bg-li order-first"}>
                 {todo.collaborators[0] && <img src={collaboratorIcon} alt="You are collaborating on this to-do" title='You are collaborating on this to-do' className="absolute top-1 left-1 cursor-pointer w-7"/> }
                 {edit ? 
                 <form onSubmit={e => saveTodo(e)} id={todo.todoId.toString()}>
@@ -161,14 +159,14 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
                 </form>
                 : 
                 <div id={todo.todoId.toString()} className='mb-2'>
-                    <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={completed ? 'text-lg text-lightgray line-through cursor-pointer m-auto' : 'text-lg cursor-pointer m-auto'} >
+                    <h3 id={todo.todoId.toString()} onClick={openSubTasks} className={todo.isComplete ? 'text-lg text-lightgray line-through cursor-pointer m-auto' : 'text-lg cursor-pointer m-auto'} >
                         {todo.task}
                     </h3>
                 </div>}
                 {todo.subTasks[0] && <img src={arrowIcon} title='Expand' onClick={openSubTasks} alt="Open sub tasks" className={openSubTask ? "w-7 absolute top-1 right-1 cursor-pointer transform rotate-180" : "w-7 absolute top-1 right-1 cursor-pointer"}/>}
                 <ul className="flex flex-col">
                     {openSubTask && todo.subTasks.map((sub: SubTask, index: number) => {
-                        return  <SubTask sub={sub} key={index} socket={socket} todo={todo} edit={edit} completed={completed} />})}
+                        return  <SubTask sub={sub} key={index} socket={socket} todo={todo} edit={edit} completed={todo.isComplete} />})}
                 </ul>
 
                 {addSubTaskInput &&
@@ -184,7 +182,7 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
                     <input onChange={e => setAddingCollaborator(e.currentTarget.value)} placeholder='Enter email to add person..' ref={inputAddPersonRef} className="m-1 w-60 border rounded"/>
                     <button type="button" onClick={() => setAddPerson(false)} title='Cancel' className="m-1 pl-1 pr-1 cursor-pointer"><img src={closeIcon} alt="close input box" className="w-7"/></button>
                 </form>}
-                <TodoMenu edit={edit} getTodos={getTodos} todo={todo} completed={completed} setCompleted={setCompleted} saveTodo={saveTodo} addSubTask={addSubTask} addPersonInput={addPersonInput} editTodo={editTodo} socket={socket} />
+                <TodoMenu edit={edit} todo={todo} completed={todo.isComplete} saveTodo={saveTodo} addSubTask={addSubTask} addPersonInput={addPersonInput} editTodo={editTodo} socket={socket} />
             </li>
             <ToastContainer />
         </>
