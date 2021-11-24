@@ -20,12 +20,7 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
 
     const [editSub, setEditSub] = useState<boolean>(false);
     const [editedSubTask, setEditSubedSubTask] = useState<string>('');
-    const [completedSub, setCompletedSub] = useState<boolean>(sub.isComplete);
     const inputEditSubTaskRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        completed ? setCompletedSub(true) : setCompletedSub(false);
-    }, [completed])
 
     const completeSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
             const id = todo.todoId;
@@ -39,13 +34,12 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    isComplete: !completedSub
+                    isComplete: !sub.isComplete
                 })
             })
             .catch(error => console.log(error.message));
         })
         .catch(error => console.log(error.message));
-            completedSub ? setCompletedSub(false) : setCompletedSub(true);
     }
 
     const deleteSubTask = async (e: React.FormEvent<HTMLButtonElement>) => {
@@ -95,7 +89,7 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
 
 
     return (
-        <li key={sub.subId} className={completedSub ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"} >
+        <li key={sub.subId} className={sub.isComplete ? "grid grid-cols-4 order-last" : "grid grid-cols-4 order-first"} >
             {editSub ? 
             <button id={sub.subId.toString()} onClick={e => saveEditedSubTask(e)} className="m-1 pl-1 pr-1 cursor-pointer">
                 <img src={saveIcon} title='Save sub task' alt="save edited sub task" className="w-7"/>
@@ -110,7 +104,7 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
             </form>
             :
             <div className="flex col-start-2 col-end-4 justify-center">
-                <p className={completedSub || completed ? 'text-base self-center text-lightgray line-through' : 'text-base self-center'}>{sub.task}</p>
+                <p className={sub.isComplete || completed ? 'text-base self-center text-lightgray line-through' : 'text-base self-center'}>{sub.task}</p>
             </div>}
 
             <div className="flex content-center justify-items-end" >

@@ -4,7 +4,7 @@ export const mockTodo = {
     task: 'first task',
     isComplete: true,
     userId: 'dafsll3k2k2',
-    collaborators: ['a', 'b'],
+    collaborators: [{userId: '1', email: 'a'}, {userId: '2', email: 'b'}],
     locked: false,
     subTasks: [
         {
