@@ -38,7 +38,7 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
                 })
             })
             .catch(error => console.log(error.message));
-        })
+        }).then(() => socket.emit('add-todo'))
         .catch(error => console.log(error.message));
     }
 
