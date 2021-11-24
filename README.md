@@ -4,7 +4,7 @@ A simple way to remember everything you have to do and share it with anyone you 
 
 Visit https://todoreminders.vercel.app
 
-![Todo Reminders](https://github.com/philipdaveby/reminders/blob/main/assets/todoreminders_screenshot?raw=true)
+![Todo Reminders](https://github.com/philipdaveby/reminders/blob/main/assets/todoreminders_screenshot.png?raw=true)
 
 The application needs the following environment variables:
 
@@ -20,7 +20,7 @@ GENERATE_SOURCEMAP
 
 The backend of this project is located in the repo reminders-server: https://github.com/philipdaveby/reminders-server.
 
-Implemented user stories:
+###### Implemented user stories:
 
 - Create an account by email
 - Add, edit, remove and update your to-dos
@@ -30,17 +30,18 @@ Implemented user stories:
 - Filter your done to-dos to see what you've accomplished
 - Add sub tasks to your to-dos
 
-Ideas for future improvment:
+###### Ideas for future improvment:
 
 - Drag and drop to rearrange the order or your to-dos
 - Freeze you to-dos to avoid collaborators to edit it
 - Filter to-dos you have yet not completed
 - Manage collaborators -> view, edit and delete
-
-Instructions to run application
+ 
+##### Instructions to run application
 
 Get the server running (reminders-server https://github.com/philipdaveby/reminders-server)
 Clone this repo and enter the following in the terminal
-
+```
 npm install
 npm run start
+```
