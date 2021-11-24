@@ -14,7 +14,12 @@ const App = () => {
 
   useEffect(() => {
     const newSocket = io('https://pure-shelf-04149.herokuapp.com', {
-      transports: ['websocket', 'flashsocket', 'htmlpage', 'xhr-polling', 'jsonp-polling']
+      reconnectionDelay: 1000,
+      reconnection: true,
+      transports: ['websocket'],
+      agent: false,
+      upgrade: false,
+      rejectUnauthorized: false,
     });
     setSocket(newSocket);
     return () => {
