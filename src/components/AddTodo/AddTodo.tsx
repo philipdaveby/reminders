@@ -63,7 +63,7 @@ const AddTodo = ({ socket, todos, filtered, setFiltered }: AddTodoProps) => {
                 </div>
             }
                 <button type="submit" title='Save to-do' className={!addInput ? 'invisible' : ''}><img className='w-9' src={saveIcon} alt='Add to-do'/></button>
-                <input ref={inputAddTodoRef} type="text" name="task" placeholder="Enter you to-do..." className={!addInput ? 'invisible rounded mx-2 h-8' : 'rounded mx-2 h-8'} />
+                <input ref={inputAddTodoRef} type="text" name="task" placeholder="Enter your to-do..." className={!addInput ? 'invisible rounded mx-2 h-8' : 'rounded mx-2 h-8'} />
                 <div className='flex justify-around items-center'>
                     <img src={closeIcon} alt='Close to-do input' title='Close' className={!addInput ? 'w-12 cursor-pointer hidden' : 'w-12 cursor-pointer'} onClick={() => setAddInput(!addInput)} />
                     {todos && todos[0] && <img src={addIcon} alt='add new to-do' title='Add new to-do' className={addInput ? 'w-12 cursor-pointer hidden' : 'w-12 cursor-pointer'} onClick={handleAddInput} />}

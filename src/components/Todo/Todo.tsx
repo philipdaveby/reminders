@@ -55,7 +55,7 @@ const Todo = ({ todo, socket, getTodos }: TodoProps) => {
             .catch(error => console.log(error.message))
     }
     
-    const editTodo = async (e: FormEvent<HTMLButtonElement>) => {
+    const editTodo = async () => {
         setEdit(edit => !edit);
         setTimeout(() => {
             inputEditTodoRef.current?.focus();

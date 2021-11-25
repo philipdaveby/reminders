@@ -15,10 +15,10 @@ interface TodoMenuProps {
     todo: Todo,
     edit: boolean,
     completed: boolean,
-    saveTodo: any,
-    addSubTask: any,
-    addPersonInput: any,
-    editTodo: any,
+    saveTodo: (e:  FormEvent<HTMLFormElement> | FormEvent<HTMLButtonElement>) => void,
+    addSubTask: () => void,
+    addPersonInput: () => void,
+    editTodo: () => void,
     socket: Socket
 }
 
@@ -63,8 +63,8 @@ const TodoMenu = ({ todo, edit, completed, saveTodo, addSubTask, addPersonInput,
             {edit && <button id={todo.todoId.toString()} onClick={e => saveTodo(e)} title='Save to-do' className="m-1 pl-1 pr-1 cursor-pointer"><img src={saveIcon} alt="save to-do" className="w-7"/></button>}
             <button id={todo.todoId.toString()} onClick={() => addSubTask()} title='Add new sub task' className="m-1 pl-1 pr-1 cursor-pointer"><img src={addIcon} alt="add new to-do" className="w-7"/></button>
             <button id={todo.todoId.toString()} onClick={addPersonInput} title='Add new collaborator' className="pl-1 pr-1 cursor-pointer"><img src={addPersonIcon} alt="add person to to-do" className="w-7"/></button> 
-            <button id={todo.todoId.toString()} onClick={e => editTodo(e)} title='Edit to-do' className={edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="edit to-do" className="w-7"/></button> 
-            <button id={todo.todoId.toString()} onClick={e => editTodo(e)} title='Cancel' className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="edit to-do" className="w-7"/></button> 
+            <button id={todo.todoId.toString()} onClick={editTodo} title='Edit to-do' className={edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={editIcon} alt="edit to-do" className="w-7"/></button> 
+            <button id={todo.todoId.toString()} onClick={editTodo} title='Cancel' className={!edit ? "hidden m-1 pl-1 pr-1 cursor-pointer" : "m-1 pl-1 pr-1 cursor-pointer"}><img src={closeIcon} alt="edit to-do" className="w-7"/></button> 
             <button id={todo.todoId.toString()} onClick={e => deleteTodo(e)} title='Delete to-do' className="pl-1 pr-1 cursor-pointer"><img src={deleteIcon} alt="delete to-do" className="w-8"/></button> 
         </div>
     )
