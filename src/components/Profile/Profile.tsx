@@ -9,7 +9,7 @@ interface ProfileProps {
     setTodos: Dispatch<SetStateAction<Array<Todo> | null>>
 }
 
-const Profile = ({ setTodos }: ProfileProps) => {
+const Profile = ({ setTodos }: ProfileProps): JSX.Element => {
 
     const email = firebase.auth().currentUser?.email;
     const user = useContext(AuthContext);

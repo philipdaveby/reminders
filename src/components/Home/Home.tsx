@@ -12,7 +12,7 @@ interface HomeProps {
     setTodos: Dispatch<SetStateAction<Array<Todo> | null>>
 }
 
-const Home = ({ socket, todos, setTodos }: HomeProps) => {
+const Home = ({ socket, todos, setTodos }: HomeProps): JSX.Element => {
 
     const [loading, setLoading] = useState<boolean>(true);
     const [filtered, setFiltered] = useState<boolean>(false);

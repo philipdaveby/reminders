@@ -14,7 +14,7 @@ interface AddTodoProps {
     setFiltered: Dispatch<SetStateAction<boolean>>
 }
 
-const AddTodo = ({ socket, todos, filtered, setFiltered }: AddTodoProps) => {
+const AddTodo = ({ socket, todos, filtered, setFiltered }: AddTodoProps): JSX.Element => {
 
     const [addInput, setAddInput] = useState<boolean>(false)
     const user = useContext(AuthContext);

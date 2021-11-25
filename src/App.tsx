@@ -9,7 +9,7 @@ import Profile from './components/Profile/Profile';
 import { Socket, io } from 'socket.io-client';
 import config from './utils/config';
 
-const App = () => {
+const App = (): JSX.Element => {
   const [socket, setSocket] = useState<Socket>(io);
   const [todos, setTodos] = useState<Array<Todo> | null>(null);
 

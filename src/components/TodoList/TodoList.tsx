@@ -9,7 +9,7 @@ interface TodoListProps {
     filtered: boolean
 }
 
-const TodoList = ({ todos, socket, getTodos, filtered }: TodoListProps) => {
+const TodoList = ({ todos, socket, getTodos, filtered }: TodoListProps): JSX.Element => {
 
     const [filteredTodos, setFilteredTodos] = useState<Array<Todo> | null>(todos);
 

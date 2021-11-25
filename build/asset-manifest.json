@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.46ceb16c.chunk.css",
-    "main.js": "/static/js/main.f09fdde5.chunk.js",
+    "main.css": "/static/css/main.558315f0.chunk.css",
+    "main.js": "/static/js/main.583d0df3.chunk.js",
     "runtime-main.js": "/static/js/runtime-main.bd613e0f.js",
     "static/css/2.68cb37e3.chunk.css": "/static/css/2.68cb37e3.chunk.css",
-    "static/js/2.f718b986.chunk.js": "/static/js/2.f718b986.chunk.js",
+    "static/js/2.224485b5.chunk.js": "/static/js/2.224485b5.chunk.js",
     "index.html": "/index.html",
-    "static/js/2.f718b986.chunk.js.LICENSE.txt": "/static/js/2.f718b986.chunk.js.LICENSE.txt",
+    "static/js/2.224485b5.chunk.js.LICENSE.txt": "/static/js/2.224485b5.chunk.js.LICENSE.txt",
     "static/media/add1.4be40fd6.png": "/static/media/add1.4be40fd6.png",
     "static/media/addPerson4.21917489.png": "/static/media/addPerson4.21917489.png",
     "static/media/arrow.ca38e953.png": "/static/media/arrow.ca38e953.png",
@@ -16,15 +16,14 @@
     "static/media/edit1.81df9553.png": "/static/media/edit1.81df9553.png",
     "static/media/filter.c59977a1.png": "/static/media/filter.c59977a1.png",
     "static/media/person.4720863e.png": "/static/media/person.4720863e.png",
-    "static/media/remindersLogo1.435ef763.png": "/static/media/remindersLogo1.435ef763.png",
     "static/media/save1.ca727b2f.png": "/static/media/save1.ca727b2f.png",
     "static/media/send.677d68a9.png": "/static/media/send.677d68a9.png"
   },
   "entrypoints": [
     "static/js/runtime-main.bd613e0f.js",
     "static/css/2.68cb37e3.chunk.css",
-    "static/js/2.f718b986.chunk.js",
-    "static/css/main.46ceb16c.chunk.css",
-    "static/js/main.f09fdde5.chunk.js"
+    "static/js/2.224485b5.chunk.js",
+    "static/css/main.558315f0.chunk.css",
+    "static/js/main.583d0df3.chunk.js"
   ]
 }

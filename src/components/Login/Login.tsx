@@ -3,7 +3,7 @@ import { auth } from "../../firebase";
 import { useHistory } from 'react-router-dom'
 import { notify } from '../../utils/index'
 
-const Login = () => {
+const Login = (): JSX.Element => {
 
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);

@@ -18,7 +18,7 @@ interface TodoProps {
     socket: Socket
 }
 
-const Todo = ({ todo, socket, getTodos }: TodoProps) => {
+const Todo = ({ todo, socket, getTodos }: TodoProps): JSX.Element => {
 
     const [editedTodo, setEditedTodo] = useState<string | null>(null)
     const [openSubTask, setOpenSubTask] = useState(false);

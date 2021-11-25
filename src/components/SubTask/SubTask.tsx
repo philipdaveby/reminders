@@ -16,7 +16,7 @@ interface SubTaskProps {
     completed: boolean
 }
 
-const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
+const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps): JSX.Element => {
 
     const [editSub, setEditSub] = useState<boolean>(false);
     const [editedSubTask, setEditSubedSubTask] = useState<string>('');

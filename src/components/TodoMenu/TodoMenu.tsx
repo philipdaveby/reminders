@@ -22,7 +22,7 @@ interface TodoMenuProps {
     socket: Socket
 }
 
-const TodoMenu = ({ todo, edit, completed, saveTodo, addSubTask, addPersonInput, editTodo, socket }: TodoMenuProps) => {
+const TodoMenu = ({ todo, edit, completed, saveTodo, addSubTask, addPersonInput, editTodo, socket }: TodoMenuProps): JSX.Element => {
 
     const completeTodo = async (e: React.FormEvent<HTMLButtonElement>) => {
         const id = e.currentTarget.id;
