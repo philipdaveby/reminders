@@ -17,22 +17,24 @@ const SignUp = () => {
 
     const createAccount = async (e: FormEvent<HTMLFormElement> | FormEvent<HTMLButtonElement>)  => {
       e.preventDefault();
+
+      if (!emailRef.current || !passwordRef.current || !confirmPasswordRef.current) return
   
-      if (!isValidEmail(emailRef.current!.value)) {
+      if (!isValidEmail(emailRef.current.value)) {
         notify('Your email does not have a correct format, please try again.', 'incorrect-format');
         return;
       }
       
       if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
         notify('Your passwords does not match, please try again.', 'not-matching-passwords');
-        passwordRef.current!.value = ''
-        confirmPasswordRef.current!.value = ''
+        passwordRef.current.value = ''
+        confirmPasswordRef.current.value = ''
         return;
       }
       try {
         await auth.createUserWithEmailAndPassword(
-          emailRef.current!.value,
-          passwordRef.current!.value
+          emailRef.current.value,
+          passwordRef.current.value
           );
           notify('You have completed your signup!', 'completed-signup');
           history.push('/')

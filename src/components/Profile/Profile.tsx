@@ -6,11 +6,10 @@ import { useHistory } from 'react-router-dom'
 import { signOut } from '../../utils';
 
 interface ProfileProps {
-    setTodos: Dispatch<SetStateAction<Array<Todo> | null>>,
-    todos: Array<Todo> | null
+    setTodos: Dispatch<SetStateAction<Array<Todo> | null>>
 }
 
-const Profile = ({ setTodos, todos }: ProfileProps) => {
+const Profile = ({ setTodos }: ProfileProps) => {
 
     const email = firebase.auth().currentUser?.email;
     const user = useContext(AuthContext);

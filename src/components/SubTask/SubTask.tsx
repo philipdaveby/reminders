@@ -64,7 +64,7 @@ const SubTask = ({ sub, socket, todo, edit, completed }: SubTaskProps) => {
         });
     }
 
-    const saveEditedSubTask = async (e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
+    const saveEditedSubTask = async (e: React.FormEvent<HTMLButtonElement>|React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const id = todo.todoId
         const subId = e.currentTarget.id;

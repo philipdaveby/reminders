@@ -40,7 +40,7 @@ const App = () => {
             <Route exact path="/" render={() => (<Home socket={socket} todos={todos} setTodos={setTodos} />)} />
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
-            <Route path="/profile" render={() => (<Profile setTodos={setTodos} todos={todos} /> )} />
+            <Route path="/profile" render={() => (<Profile setTodos={setTodos} /> )} />
           </Switch>
         </AuthProvider>
     </div>

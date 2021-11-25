@@ -3,7 +3,7 @@ import { Socket } from 'socket.io-client';
 import Todo from '../Todo/Todo'
 
 interface TodoListProps {
-    todos: Array<Todo> | null,
+    todos: Array<Todo>|null,
     getTodos: any,
     socket: Socket,
     filtered: boolean

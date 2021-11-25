@@ -59,7 +59,7 @@ const Home = ({ socket, todos, setTodos }: HomeProps) => {
                     }
                 })
                 .catch((error) => {
-                    console.log('We had an error loading data');
+                    console.log('We had an error loading data: ' + error);
                 });
           });
     }
