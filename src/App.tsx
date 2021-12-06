@@ -33,7 +33,7 @@ const App = (): JSX.Element => {
   
 
   return (
-    <div id="app" className="flex w-full flex-col h-screen">
+    <div id="app" className="flex w-full flex-col h-screen mt-6">
         <AuthProvider>
           <NavBar />
           <Switch>
