@@ -4,7 +4,7 @@ A simple way to remember everything you have to do and share it with anyone you 
 
 Visit the running application -> https://todoreminders.vercel.app
 
-![Todo Reminders](https://github.com/philipdaveby/reminders/blob/main/assets/todoreminders_screenshot.png?raw=true)
+<img src="https://github.com/philipdaveby/reminders/blob/main/assets/todoreminders_screenshot.png?raw=true" width='300'>
 
 The application needs the following environment variables:
 
