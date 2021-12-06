@@ -41,7 +41,6 @@ const Home = ({ socket, todos, setTodos }: HomeProps): JSX.Element => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [socket])
     
-    
     const getTodos = async () => {
         firebase.auth().onAuthStateChanged(user => {
             user?.getIdToken(true)
